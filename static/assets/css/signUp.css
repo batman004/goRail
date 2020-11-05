@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+:root {
+    --navBar-color: #016484;
+    --loginBtn-color: #bce3fa;
+    --inputField-color: #007bba;
+    --homePageBackground-color: #3f3c3c;
+    --Montserrat-font: "Montserrat";
+}
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    box-sizing: border-box;
+}
+body {
+    background-color: black;
+}
+header {
+    text-align: center;
+    margin-top: 1rem;
+}
+h1 {
+    font-size: 3em;
+    color: white;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-family: var(--Montserrat-font);
+}
+main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 2em;
+    /* background-color: aquamarine; */
+}
+#GoRailLogo {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    /* background-color: aliceblue; */
+}
+#GoRailLogo > img {
+    align-self: center;
+    width: 9rem;
+    height: 9rem;
+}
+.formContainer {
+    /* background-color: red; */
+}
+.signupForm {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    /* margin-top: 2em; */
+    /* background-color: bisque; */
+}
+.formElements {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+.formElements > label {
+    margin-right: 2em;
+    align-self: center;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-size: 1.3em;
+    line-height: 1.2em;
+    font-family: var(--Montserrat-font, sans-serif);
+}
+.formElements > input {
+    height: 2.5em;
+    width: 14em;
+    padding-left: 0.6em;
+    font-weight: 700;
+    font-size: 1em;
+    font-family: var(--Montserrat-font, sans-serif);
+    color: white;
+    line-height: 1.4em;
+    background-color: var(--inputField-color);
+    border-radius: 2em;
+    border: none;
+}
+
+.formElements > input:focus,
+.signupButton > button {
+    outline: none;
+}
+.signupButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5em;
+}
+.signupButton > button {
+    width: 7em;
+    height: 2em;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 0.7em;
+    background-color: var(--loginBtn-color);
+    color: black;
+    font-family: var(--Montserrat-font);
+    font-weight: 700;
+    font-size: 1.3em;
+}
+.signupButton > button:hover {
+    color: yellow;
+    cursor: pointer;
+    background-color: #3f3c3c;
+}
+.signupButton > button:active {
+    color: black;
+    background-color: rgb(255, 102, 0);
+}
+
+.error {
+    color: white;
+    font-family: var(--Montserrat-font, sans-serif);
+    font-size: 1em;
+    font-weight: 700;
+    margin-right: 5 rem;
+}

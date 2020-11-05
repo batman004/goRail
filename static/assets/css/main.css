@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&display=swap");
+:root {
+    --navBar-color: #016484;
+    --loginBtn-color: #2c4268;
+    --homePageBackground-color: #3f3c3c;
+    --communist-font: "Liu Jian Mao Cao";
+    --homePage-color: #7dc66b;
+    /* --homePageBackground-image: "../img/homeGB.png"; */
+    --Montserrat-font: "Montserrat";
+}
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    box-sizing: border-box;
+}
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.container {
+    background-color: black;
+    /* position: relative; */
+}
+.navBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: var(--navBar-color);
+    z-index: 1000;
+}
+.navLogo {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 10%;
+    flex-shrink: 1;
+}
+.navLogo > img {
+    width: 7em;
+    height: auto;
+    justify-content: flex-start;
+}
+.navLinks-middle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: 90%;
+    flex-shrink: 3;
+    justify-content: space-around;
+    align-items: center;
+}
+.navLinks-middle > div {
+    padding: 0 0.4em;
+    margin-right: 1em;
+}
+.navLinks-middle > div > a > label:hover {
+    color: yellow;
+    cursor: pointer;
+}
+.navLinks-middle > div > a > label {
+    font-family: var(--Montserrat-font, sans-serif);
+    font-weight: 700;
+    font-size: 2em;
+    font-style: italic;
+    color: rgb(0, 0, 0);
+}
+.navButton-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navButton-login > button {
+    width: 7em;
+    height: 2em;
+    border: 5px solid rgb(0, 0, 0);
+    border-radius: 0.7em;
+    background-color: var(--loginBtn-color);
+    color: #ffffff;
+    font-family: var(--Montserrat-font);
+    font-weight: 700;
+    font-size: 2em;
+}
+.navButton-login > button:hover {
+    color: yellow;
+    cursor: pointer;
+    background-color: #3f3c3c;
+}
+.navButton-login > button:active {
+    color: black;
+    background-color: rgb(255, 102, 0);
+}
+.navButton-login > button:focus {
+    outline: none;
+}
+.main-container {
+    background-image: url("../img/homePageTrain.png");
+    background-size: cover;
+    text-align: center;
+    height: 90vh;
+}
+h1 {
+    font-family: var(--communist-font);
+    color: var(--homePage-color);
+    font-size: 4em;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.3em;
+}
+/* Sign Up */
+.signUp {
+    text-align: center;
+    color: white;
+    margin-top: 11rem;
+}
+.signUp > h3 {
+    font-family: var(--Montserrat-font, sans-serif);
+    font-weight: 700;
+    font-size: 1.3em;
+}
+.signUp > h3 > a > label {
+    text-decoration: underline;
+    line-height: 1.3em;
+}
+.signUp > h3 > a > label:hover {
+    cursor: pointer;
+    color: yellow;
+}
+
+.error {
+    color: white;
+    font-family: var(--Montserrat-font, sans-serif);
+    font-size: 3em;
+    font-weight: 700;
+    
+}

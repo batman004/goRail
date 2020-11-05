@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+:root {
+    --navBar-color: #016484;
+    --loginBtn-color: #bce3fa;
+    --inputField-color: #007bba;
+    --homePageBackground-color: #3f3c3c;
+    --Montserrat-font: "Montserrat";
+}
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+body {
+    background-color: black;
+}
+header {
+    display: flex;
+    justify-content: center;
+}
+header > img {
+    width: 7em;
+    height: auto;
+}
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-top: 2em;
+}
+.pencilSVG {
+    flex-basis: 25%;
+}
+
+.pencilSVG > img {
+    width: 18em;
+    height: auto;
+}
+.loginMiddle {
+    flex-basis: 50%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    /* background-color: aquamarine; */
+    margin-right: 1em;
+    margin-top: 2em;
+}
+.loginText {
+    text-align: center;
+}
+.loginText > h1 {
+    color: white;
+    font-family: var(--Montserrat-font, sans-serif);
+    font-size: 2em;
+    font-weight: 700;
+}
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 5%;
+}
+.emailDiv,
+.passwordDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1.5em;
+}
+.emailDiv > label,
+.passwordDiv > label {
+    margin-right: 1em;
+    align-self: center;
+    color: white;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    font-size: 1.4em;
+    line-height: 1.4em;
+    font-family: var(--Montserrat-font, sans-serif);
+}
+.emailDiv > input,
+.passwordDiv > input {
+    height: 3.4em;
+    width: 18em;
+    padding-left: 0.6em;
+    font-weight: 700;
+    font-size: 1em;
+    font-family: var(--Montserrat-font, sans-serif);
+    color: white;
+    line-height: 1.4em;
+    background-color: var(--inputField-color);
+    border-radius: 2em;
+    border: none;
+}
+
+.emailDiv > input:focus,
+.passwordDiv > input:focus,
+.loginButton > button {
+    outline: none;
+}
+.loginButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5em;
+}
+.loginButton > button {
+    width: 7em;
+    height: 2em;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 0.7em;
+    background-color: var(--loginBtn-color);
+    color: black;
+    font-family: var(--Montserrat-font);
+    font-weight: 700;
+    font-size: 1.5em;
+}
+.loginButton > button:hover {
+    color: yellow;
+    cursor: pointer;
+    background-color: #3f3c3c;
+}
+.loginButton > button:active {
+    color: black;
+    background-color: rgb(255, 102, 0);
+}
+
+.signUp {
+    text-align: center;
+    color: white;
+    margin-top: 3em;
+}
+.signUp > h3 {
+    font-family: var(--Montserrat-font, sans-serif);
+    font-weight: 700;
+    font-size: 1.3em;
+}
+.signUp > h3 > a > label {
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    line-height: 1.3em;
+}
+a {
+    color: inherit;
+}
+.signUp > h3 > a > label:hover {
+    cursor: pointer;
+    color: yellow;
+}

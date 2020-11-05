@@ -18,11 +18,11 @@
                 <div><a href="/bookTicket"><label>Book Tickets</label></a></div>
                 <div><a href="/costPredictor"><label>Cost Predictor</label></a></div>
                 {% if login_checker == 'Login' %}
-                <div class="navButton-login"><button type="button"
+                    <div class="navButton-login"><button type="button"
                     onclick='window.location.href="/login"'>Login</button></div>
                 {% else %}
-                <div class="navButton-login"><button type="button"
-                    onclick='window.location.href="/login"'>{{ login_checker }}</button></div>
+                    <div class="navButton-login"><button type="button"
+                    onclick='window.location.href="/passenger"'>{{ login_checker }}</button></div>
                 {% endif %}
 <!--                 
                 <span>

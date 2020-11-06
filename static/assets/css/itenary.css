@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+
+:root {
+    --navBar-color: #016484;
+    --loginBtn-color: #2c4268;
+    --homePageBackground-color: #3f3c3c;
+    --homePage-color: #7dc66b;
+    --infoPane-color: #007bba;
+    --Montserrat-font: "Montserrat";
+}
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    box-sizing: border-box;
+    text-align: center;
+}
+body {
+    background-color: black;
+    color: white;
+    font-family: var(--Montserrat-font);
+}
+.heading {
+    margin: 1rem 0;
+}
+
+.main-container {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+#wrapper-text {
+    font-size: 2em;
+}
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+input[type="radio"] {
+    appearance: none;
+    border-radius: 25%;
+    width: 2em;
+    height: 2em;
+    margin-left: 6px;
+    background-color: white;
+    transition: 0.2s all linear;
+}
+input[type="radio"]:checked {
+    border: 6px solid hotpink;
+    outline: none;
+}
+input[type="radio"]:active {
+    outline: none;
+}
+.radio-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+.radioBtn {
+    font-size: 2em;
+    font-weight: 600;
+    margin-top: 0.6em;
+}
+.submitBtn {
+    display: flex;
+    justify-content: center;
+}
+button[type="submit"] {
+    font-family: var(--Montserrat-font);
+    font-size: 1em;
+    font-weight: 700;
+    color: white;
+    background-color: var(--infoPane-color);
+    border: none;
+    border-radius: 2rem;
+    letter-spacing: 2px;
+    width: 7rem;
+    height: 2rem;
+    margin-bottom: 2rem;
+}
+button[type="submit"]:hover {
+    background-color: coral;
+}
+button[type="submit"]:active {
+    background-color: #7dc66b;
+    transition: 0.2s all linear;
+}
+button[type="submit"]:focus {
+    outline: none;
+}

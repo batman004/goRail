@@ -1,0 +1,193 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+
+:root {
+    --navBar-color: #016484;
+    --loginBtn-color: #2c4268;
+    --homePageBackground-color: #3f3c3c;
+    --homePage-color: #7dc66b;
+    --infoPane-color: #007bba;
+    --Montserrat-font: "Montserrat";
+}
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    box-sizing: border-box;
+}
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    background-color: black;
+    color: white;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.navBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: var(--navBar-color);
+    z-index: 1000;
+}
+.navLogo {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 10%;
+    flex-shrink: 1;
+}
+.navLogo > img {
+    width: 7em;
+    height: auto;
+    justify-content: flex-start;
+}
+.navLinks-middle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: 90%;
+    flex-shrink: 3;
+    justify-content: space-around;
+    align-items: center;
+}
+.navLinks-middle > div {
+    padding: 0 0.4em;
+    margin-right: 1em;
+}
+.navLinks-middle > div > a > label:hover {
+    color: yellow;
+    cursor: pointer;
+}
+.navLinks-middle > div > a > label {
+    font-family: var(--Montserrat-font, sans-serif);
+    font-weight: 700;
+    font-size: 2em;
+    font-style: italic;
+    color: rgb(0, 0, 0);
+}
+.navButton-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navButton-login > button {
+    width: 7em;
+    height: 2em;
+    border: 5px solid rgb(0, 0, 0);
+    border-radius: 0.7em;
+    background-color: var(--loginBtn-color);
+    color: #ffffff;
+    font-family: var(--Montserrat-font);
+    font-weight: 700;
+    font-size: 2em;
+}
+.navButton-login > button:hover {
+    color: yellow;
+    cursor: pointer;
+    background-color: #3f3c3c;
+}
+.navButton-login > button:active {
+    color: black;
+    background-color: rgb(255, 102, 0);
+}
+.navButton-login > button:focus {
+    outline: none;
+}
+.main-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 0.2em;
+    /* background-color: #7dc66b; */
+}
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+    /* background-color: bisque; */
+}
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 40%;
+    /* background-color: red; */
+}
+.left-row-1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.left-row-1 > img {
+    width: 3.5rem;
+    height: 3.5rem;
+    /* border-radius: 50%; */
+    margin: 0 2em 0 1em;
+}
+.left-infoPane {
+    margin-top: 3em;
+    height: 60%;
+}
+
+.right-row-1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+/* Top Rows */
+.right-row-1 > label,
+.left-row-1 > label {
+    color: white;
+    font-family: var(--Montserrat-font);
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.right-row-1 > img {
+    width: 6rem;
+    height: 6rem;
+}
+
+.right-infoPane,
+.left-infoPane {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--infoPane-color);
+    border-radius: 0.7em;
+    padding: 1em;
+}
+
+.right-infoPane > div,
+.left-infoPane > div {
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    font-family: var(--Montserrat-font);
+    font-size: 1.5em;
+    font-weight: 400;
+    margin-top: 0.6em;
+    border-radius: 1rem;
+    background-color: black;
+}
+.textLabel {
+    display: flex;
+    justify-content: flex-start;
+    /* background-color: red; */
+    flex-basis: 50%;
+}
+
+.dataField {
+    position: relative;
+    flex-basis: 40%;
+    text-align: center;
+    /* background-color: black; */
+}

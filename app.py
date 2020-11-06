@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import calendar
 
+#from passlib.hash import pbkdf2_sha256
 #from models import *
 import random
 import pickle
@@ -23,6 +24,7 @@ stations = np.array(stations)
 
 #-------------------------------configs--------------------------------------------
 
+
 app=Flask(__name__)
 
 app.secret_key = "thisisasecretkey"
@@ -32,7 +34,7 @@ ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:uvpostgres269@localhost/gorail'
+    app.config['SQLALCHEMY_DATABASE_URI'] = ''
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -46,11 +48,10 @@ db = SQLAlchemy(app)
 
 #----------------------------------------DATABASE CLASSES----------------
 
+
 class Passenger(db.Model):
 
-
-
-    __tablename__='passengers'
+    __tablename__='passenger'
     Passenger_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True)
     email = db.Column(db.String(200))
@@ -60,7 +61,7 @@ class Passenger(db.Model):
     phone_no=db.Column(db.BigInteger,unique=True)
     Category=db.Column(db.String(20))
     Password=db.Column(db.String(40))
-    train=db.relationship('Booking',backref='Passenger_Data',uselist=False)
+    P_data=db.relationship('Ticket',backref='Passenger_Data',uselist=False)
 
     def __init__(self, name, email, age,gender,address,phone_no,Category,Password):
         self.name = name
@@ -72,117 +73,129 @@ class Passenger(db.Model):
         self.Category = Category
         self.Password = Password
 
+# class Train(db.Model):
+#     __tablename__='trains'
+#     train_no=db.Column(db.Integer,primary_key=True)
+#     train_name=db.Column(db.VARCHAR(20))
+#     seq=db.Column(db.Integer)
+#     station_code=db.Column(db.VARCHAR(4))
+#     station_name=db.Column(db.VARCHAR(40))
+#     arrival_time=db.Column(db.Time)
+#     departure_time =db.Column(db.Time, primary_key=True)
+#     distance=db.Column(db.Integer)
+#     source_station=db.Column(db.VARCHAR(4))
+#     source_station_name=db.Column(db.VARCHAR(40))
+#     destination_station=db.Column(db.VARCHAR(4))
+#     destination_station_name=db.Column(db.VARCHAR(40))
+
+#     def __init__(self, train_no, train_name, seq,station_code,station_name,arrival_time,departure_time,distance,source_station,source_station_name,destination_station,destination_station_name):
+#         self.train_no = train_no
+#         self.train_name = train_name
+#         self.seq = seq
+#         self.station_code = station_code
+#         self.station_name = station_name
+#         self.arrival_time = arrival_time
+#         self.departure_time = departure_time
+#         self.distance = distance
+#         self.source_station = source_station
+#         self.source_station_name = source_station_name
+#         self.destination_station = destination_station
+#         self.destination_station_name = destination_station_name
+
+
+
 
 class Ticket(db.Model):
 
     __tablename__='Ticket'
-    PNR=db.Column(db.Integer,primary_key=True)
-    Train_Class=db.Column(db.String(30),unique=True)
+    ticket_id=db.Column(db.Integer,primary_key=True)
+    #Train_Class=db.Column(db.String(10))
+    Train_Name=db.Column(db.String(60))
     Concession=db.Column(db.String(30))
     Date_of_travel=db.Column(db.Date)
-    Cost=db.Column(db.Integer)
-    # Time_of_departure=db.Column(db.Time)
-    # Time_of_arrival=db.Column(db.Time)
-    # #pnr=db.relationship('Booking',backref='pnr')
+    Time_of_departure=db.Column(db.Time)
+    Time_of_arrival=db.Column(db.Time)
+    place_of_Departure =db.Column(db.String(40))
+    place_of_Arrival=db.Column(db.String(40))
+    cost_of_ticket=db.Column(db.Integer)
+    PNR=db.Column(db.BigInteger)
+    Passengerid=db.Column(db.Integer,db.ForeignKey('passenger.Passenger_id'))
+    Train_Class=db.Column(db.String(10))
 
-    def __init__(self, Class, Date_of_travel, Cost, Time_of_departure,Time_of_arrival):
-        self.Class = Class
+    #Train_Type=db.Column(db.String(30))
+    #train_data=db.Column(db.Integer,ForeignKey('train.train_no'))
+
+
+    def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
+        self.Train_Name = Train_Name
+        self.Concession = Concession
         self.Date_of_travel = Date_of_travel
-        self.Cost = Cost
         self.Time_of_departure = Time_of_departure
         self.Time_of_arrival = Time_of_arrival
-
-
-
-class Station(db.Model):
-
-    __tablename__='Station'
-    stn_code=db.Column(db.String(4),primary_key=True)
-    stn_name=db.Column(db.String(30),unique=True)
-    #trains=db.relationship('Train',backref="passing_through")
-
-
-
-class Train(db.Model):
-    __tablename__='Trains'
-    Train_No=db.Column(db.Integer,primary_key=True)
-    Train_Name=db.Column(db.String(30),unique=True)
-    #passengers=db.relationship('Booking',backref='on_train')
-   # stn_ID=db.Column(db.String(4),db.ForeignKey('station.stn_code'))
-
-    def __init__(self, Train_Name, stn_ID):
-        self.Train_Name = Train_Name
-        self.stn_ID = stn_ID
-
-
-
-class Booking(db.Model):
-    __tablename__ = 'Booking_data'
-    booking_id=db.Column(db.Integer,primary_key=True)
-    Date_of_booking=db.Column(db.DateTime)
-    #Train_No=db.Column(db.Integer,db.ForeignKey('train.Train_No'))
-    #PNR=db.Column(db.BigInteger,db.ForeignKey('Ticket.PNR'))
-    departure=db.Column(db.String(30))
-    arrival=db.Column(db.String(30))
-    passengerid=db.Column(db.Integer,db.ForeignKey('passengers.Passenger_id'),unique=True)
-    
-    def __init__(self, Date_of_booking, Train_No, PNR,departure,arrival,main_data):
-        self.Date_of_booking = Date_of_booking
-        self.Train_No = Train_No
-        self.PNR = PNR
-        self.departure=departure
-        self.arrival=arrival
-        self.main_data=main_data
-
-
-
-
-# class Train(db.Model):
-#     __tablename__='Train'
-#     Train_No=db.Column(db.Integer,primary_key=True)
-#     Train_Name=db.Column(db.String(30),unique=True)
-#     passengers=db.relationship('Booking',backref='on_train')
-#     stn_ID=db.Column(db.String(4),db.ForeignKey('station.stn_code'))
-
-#     def __init__(self, Train_Name, stn_ID):
-#         self.Train_Name = Train_Name
-#         self.stn_ID = stn_ID
+        self.place_of_Departure = place_of_Departure
+        self.place_of_Arrival = place_of_Arrival
+        self.cost_of_ticket = cost_of_ticket
+        self.PNR=PNR
+        self.Passengerid=Passengerid
+        self.Train_Class=Train_Class
 
 
 
 
 #-----------------------------------Routes------------------------------
 
+
+login_checker=""
+
+
 @app.route('/')
 def index():
+    global login_checker 
+
+    login_checker="Login"    
+    return render_template('index.html',login_checker=login_checker)#,login_checker="Login"
+
+@app.route('/home')
+def home():
+    #global login_checker
     login_checker=request.args['login_checker']
     
-    return render_template('index.html',login_checker=login_checker)#,login_checker="Login"
+    return render_template('index.html',login_checker=login_checker)
+
+
 
 @app.route('/login',methods=["POST","GET"])
 def login():
     error=None
-    login_checker="Login"
+    global login_checker 
     if request.method == 'POST':
         passenger_email=request.form['email']
         passenger_password=request.form['password']
         # add check for already existing user or not and check if password matches
-        exists = db.session.query(Signup.Passenger_id).filter_by(email=passenger_email).scalar()
-        pswd=db.session.query(Signup.Password==passenger_password).filter_by(email=passenger_email).scalar()
+        exists = db.session.query(Passenger.Passenger_id).filter_by(email=passenger_email).scalar()
+        pswd=db.session.query(Passenger.Password==passenger_password).filter_by(email=passenger_email).scalar()
         if exists is not None and pswd is not None:
         
-            name = Signup.query.filter_by(email=passenger_email).first()
+            name = Passenger.query.filter_by(email=passenger_email).first()
             login_checker=name.name
         flash('You were successfully logged in')
-        return redirect(url_for('index',login_checker=login_checker))
+        return redirect(url_for('home',login_checker=login_checker,**request.args))
     return render_template('login.html')
 
 
+@app.route('/logout')
+def logout():
+    global login_checker
+    login_checker="Login"
+    flash('You were successfully logged out !')
+
+    return redirect(url_for('home',login_checker=login_checker,**request.args))
+    
 
 
 @app.route('/signUp',methods=["POST","GET"])
 def signup():
-    login_checker="Login"
+    #login_checker="Login"
     error=None
     if request.method == 'POST':
         passenger_name = request.form['Name']
@@ -193,22 +206,26 @@ def signup():
         passenger_gender=request.form['gender']
         passenger_address=request.form['address']
         passenger_category=request.form['category']
+        #hashed_pswd = sha256_crypt.hash('password') 
+        login_checker=passenger_name
 
-        print(passenger_name, passenger_email, passenger_phoneno, password)
+
+        #print(passenger_name, passenger_email, passenger_phoneno, password)
         if passenger_name == '' or passenger_email == '' or password == '' or passenger_email == '' or passenger_gender==''  or passenger_address == '' or passenger_age=='':
             error = 'Enter data in all feilds. Please try again!'
             return render_template('signUp2.html',error=error)
         
-        # if db.session.query(Signup.Passenger_id).filter_by(name=passenger_name).count() == 0:
-        #     data = Signup(passenger_name, passenger_email, passenger_age,passenger_gender, passenger_address,passenger_phoneno,passenger_category ,password)
-        #     db.session.add(data)
-        #     db.session.commit()
-        #     #send_mail(customer, dealer, rating, comments)
-        else:
+        if db.session.query(Passenger.Passenger_id).filter_by(name=passenger_name).count() == 0:
+            data= Passenger(passenger_name, passenger_email, passenger_age,passenger_gender, passenger_address,passenger_phoneno,passenger_category ,password)
+            db.session.add(data)
+            db.session.commit()
             flash('Successfully Signed Up !')
             login_checker=passenger_name
-            return redirect(url_for('index',login_checker=login_checker, **request.args))#error='You have already Signed up !'
+            # global passenger_name
+            return redirect(url_for('home',login_checker=login_checker, **request.args))#error='You have already Signed up !'
 
+            #send_mail(customer, dealer, rating, comments)
+        
     return render_template('signUp2.html')
         # if db.session.query(Signup).filter(Passengers.name == passenger_name).count() == 0:
 
@@ -217,30 +234,71 @@ def signup():
 def passenger():
     #query data from database about passenger : name, email ..... and train data
 
+    global login_checker
 
-    return render_template('passenger.html')
+    pdata=Passenger.query.filter_by(name=login_checker).first()
+
+    name=pdata.name
+    email=pdata.email
+    age=pdata.age
+    gender=pdata.gender
+    address=pdata.address
+    phoneno=pdata.phone_no
+    category=pdata.Category
+    ppid=pdata.Passenger_id
+
+
+
+    tdata=Ticket.query.filter_by(Passengerid=ppid).first()
+    
+    tname=tdata.Train_Name
+    Date_of_T=tdata.Date_of_travel
+    Time_of_Departure=tdata.Time_of_departure
+    Time_of_arrival=tdata.Time_of_arrival
+    D_From=tdata.place_of_Departure
+    A_at=tdata.place_of_Arrival
+    tcost=tdata.cost_of_ticket
+    tpnr=tdata.PNR
+   
+
+    return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr)
+    #return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category)
 
 
 
 
 @app.route('/bookTicket', methods=["GET","POST"])
 def booking():
+    global login_checker 
+
+
+    data = pd.read_csv('trainsxx.csv')
+
+
+    def convert_to_int(word):
+        word_dict = {'Super Fast':1, 'Passenger Train':2, 'Express Train':3, 'INTERCITY':4, 'MD-LD':5, 'MD': 6, 'LD-MD':7,0:0}
+        return word_dict[word]
+
+
+    def convert_to_intt(word):
+        word_dict = {'1AC':1, '2AC':2, 'SL':3, '1AC Plus':4,0:0}
+        return word_dict[word]
+
+
     error=None
     if request.method == 'POST':
         p_departure = request.form['departure']
         p_arrival = request.form['arrival']
         date = request.form['date']
         concession = request.form['concession']
-        print(p_departure, p_arrival, date, concession)
+        train_class=request.form['trainClass']
+        train_type=request.form['trainType']
 
-        # CHOICE = input("\nDo you want to buy ticket ? \n")
-        # if CHOICE == 'y':
-            # pnr = random.randint(1000000000, 9999999999)
-            # PNR[x] = pnr
-        #     print("Your PNR Number is: ", str(PNR[x]))
-        #     Tickets[PNR[x]] = [cp, start, end]
-        # else:
-        #     print("Ticket not bought")
+        trainc=train_class
+        #train_type1=train_type
+        #Passenger_id=request.form['Passenger_id']
+        #print(p_departure, p_arrival, date, concession)
+
 
             
         c1 = 0
@@ -258,40 +316,97 @@ def booking():
             else:
                 c2 += 1
         dist = abs((c2 - c1))*100 #calculating distances between stations
-        #pnr = random.randint(1000000000, 9999999999)
+
+        #pnr = random.randint(10000000, 99999999)
 
 
-        x=data.loc[c1:c2, :]
-        return redirect(url_for('success',data=x.to_html(), **request.args))#error='You have already Signed up !'
+        if(p_departure=="DELHI-SAFDAR" and p_arrival=="AGRA CANTT"):
+            route=1
+        elif(p_departure=="AGRA CANTT" and p_arrival=="DELHI-SAFDAR"):
+            route =2
+        elif(p_departure=="SAWANTWADI R" and p_arrival=="MADGOAN JN."):
+            route=3
+        else:
+            route =4
 
-        # choice=request.form['yes_no']
-        # print(choice)
-        # return render_template("successbooking.html",choice=choice,pnr=pnr)
-    
+        fare_t=1
+        x=datetime.strptime(date,"%Y-%m-%d")
+        month=x.month
+        day=x.day
+        weekday=x.weekday()
+        
+        train_c=convert_to_intt(train_class)
+        train_t=convert_to_int(train_type)
+        dur=160
+        pickle_in = open("ticketprices.pickle", "rb")
+        linear = pickle.load(pickle_in)
+        inputt=[train_t ,train_c ,fare_t ,month ,day ,weekday ,dur,route]  #check this tuple and manupulate input
+        inputt = np.asarray(inputt,dtype='float64')
+        inputt.reshape(-1,1)
 
-    return render_template("bookTicket.html")
+        if(concession=="general"):
+            cp=linear.predict([inputt])[0]*4
+        elif(concession=="Senior Citizen"):
+            cp=linear.predict([inputt])[0]*4.0 -60
+
+        else:
+            cp=linear.predict([inputt])[0]*4.0 -40
+
+
+        cost=int(cp)
+
+        y=data.loc[c1:c2, :]
+        trainn=y['Train Name'].unique()[0]
+        trainn=str(trainn)
+        time_of_dep=y['Departure Time'].iloc[0]
+        idx=y.index[y['Station Name']==p_arrival][0]
+        time_of_arr=y['Arrival time'].loc[idx]
+        pnr = random.randint(1000000, 9999999)
+
+        # pdata=db.session.query(Passenger.Passenger_id).filter_by(name=login_checker).first()
+        # print(pdata)
+        pdata=Passenger.query.filter_by(name=login_checker).first()
+
+        ppid=pdata.Passenger_id
+
+        lst=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
+        print(lst)
+
+        #def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
+       
+        
+        data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
+        db.session.add(data2)
+        db.session.commit()
+        print(data2)
+        return redirect(url_for('success',data=y.to_html(), pnr=pnr,**request.args,login_checker=login_checker))#error='You have already Signed up !'
+
+    return render_template("bookTicket3.html",login_checker=login_checker)
+
 
 
 @app.route('/success',methods=["GET","POST"])
 def success():
     data=request.args['data']
-    pnr = random.randint(1000000000, 9999999999)
+    #print(daata)
     if request.method == "POST":
         choice=request.form['yes_no']
         print(choice)
         if choice=="yes":
+            pnr=request.args['pnr']
             return render_template("successbooking.html",choice=choice,pnr=pnr)
         else:
             return redirect(url_for('booking'))#error='You have already Signed up !'
  
-    return render_template('itenary.html',data=data)
+    return render_template('itenary2.html',data=data)
 
 
 
 
 @app.route('/costPredictor',methods=["GET","POST"])
 def costPredictor():
-
+    
+    global login_checker
 
 
     def convert_to_int(word):
@@ -369,21 +484,19 @@ def costPredictor():
         inputt.reshape(-1,1)
 
         if(concession=="general"):
-            cp=linear.predict([inputt])*4
+            cp=linear.predict([inputt])[0]*4
         elif(concession=="Senior Citizen"):
-            cp=linear.predict([inputt])*4.0 -60
+            cp=linear.predict([inputt])[0]*4.0 -60
 
         else:
-            cp=linear.predict([inputt])*4.0 -40
+            cp=linear.predict([inputt])[0]*4.0 -40
         
 
         op='Predicted Ticket Price: ' +  "Rs." + str(cp)
         #print ('Predicted Ticket Price: \n', "Rs.",cp)
-        return render_template('costPredictor.html',op=op)
+        return render_template('costPredictor3.html',op=op)
 
-    return render_template('costPredictor.html')
-
-
+    return render_template('costPredictor3.html',login_checker=login_checker)
 
 
   

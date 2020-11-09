@@ -6,7 +6,26 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> your ticket has been booked !</h1>
-    <h1> PNR : {{ pnr  }}</h1>
+    <div class="error">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+                
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        
+        
+    </div>
+        {% else %}
+
+
+        <h1> your ticket has been booked !</h1>
+        <h1> PNR : {{ pnr  }}</h1>
+
+        {% endif %}
+        {% endwith %}
+
 </body>
 </html>

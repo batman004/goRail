@@ -281,7 +281,7 @@ def booking():
 
     data = pd.read_csv('trainsxx.csv')
 
-
+    error=None
     def convert_to_int(word):
         word_dict = {'Super Fast':1, 'Passenger Train':2, 'Express Train':3, 'INTERCITY':4, 'MD-LD':5, 'MD': 6, 'LD-MD':7,0:0}
         return word_dict[word]
@@ -372,21 +372,29 @@ def booking():
 
         # pdata=db.session.query(Passenger.Passenger_id).filter_by(name=login_checker).first()
         # print(pdata)
-        pdata=Passenger.query.filter_by(name=login_checker).first()
 
-        ppid=pdata.Passenger_id
-
-        lst=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
-        print(lst)
+        #lst=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
+        #sprint(lst)
 
         #def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
        
         
-        data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
-        db.session.add(data2)
-        db.session.commit()
-        print(data2)
-        return redirect(url_for('success',data=y.to_html(), pnr=pnr,**request.args,login_checker=login_checker))#error='You have already Signed up !'
+        #print(data2)
+        if(login_checker !="Login"):
+
+            pdata=Passenger.query.filter_by(name=login_checker).first()
+
+            ppid=pdata.Passenger_id
+
+            data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
+            db.session.add(data2)
+            db.session.commit()
+        
+            return redirect(url_for('success',data=y.to_html(), pnr=pnr,**request.args,login_checker=login_checker))#error='You have already Signed up !'
+        else:
+            flash('Please Login First !')
+            return render_template("successbooking.html")
+
 
     return render_template("bookTicket3.html",login_checker=login_checker)
 

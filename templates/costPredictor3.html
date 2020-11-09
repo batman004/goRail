@@ -14,7 +14,7 @@
         <nav class="navBar">
             <div class="navLogo"><img src="../static/assets/img/goRailPng.png"></div>
             <div class="navLinks-middle">
-                <div><a href="/home"><label>Home</label></a></div>
+                <div><a href="/"><label>Home</label></a></div>
                 <div id="bookTicket"><a href="/bookTicket"><label>Book Tickets</label></a></div>
                 <div id="costPredictor"><a href="/costPredictor"><label>Cost Predictor</label></a></div>
                 {% if login_checker == 'Login' %}
@@ -23,7 +23,7 @@
                 {% else %}
                     <div class="navButton-login"><button type="button"
                     onclick='window.location.href="/passenger"'>{{ login_checker }}</button></div>
-                    <div><a href="/login"><label>Logout</label></a></div>
+                    <div><a href="/logout"><label>Logout</label></a></div>
                 {% endif %}
             </div>
         </nav>

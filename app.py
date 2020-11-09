@@ -34,7 +34,7 @@ ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/gorail2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -152,7 +152,7 @@ login_checker=""
 def index():
     global login_checker 
 
-    login_checker="Login"    
+    #login_checker="Login"    
     return render_template('index.html',login_checker=login_checker)#,login_checker="Login"
 
 @app.route('/home')
@@ -173,12 +173,18 @@ def login():
         passenger_password=request.form['password']
         # add check for already existing user or not and check if password matches
         exists = db.session.query(Passenger.Passenger_id).filter_by(email=passenger_email).scalar()
-        pswd=db.session.query(Passenger.Password==passenger_password).filter_by(email=passenger_email).scalar()
+        print(exists)
+        pswd=db.session.query(Passenger.Password==passenger_password).filter_by(Password=passenger_password).scalar()
+        print(pswd)
         if exists is not None and pswd is not None:
         
             name = Passenger.query.filter_by(email=passenger_email).first()
             login_checker=name.name
-        flash('You were successfully logged in')
+            flash('You were successfully logged in')
+        else:
+            flash("Please enter correct credentials")
+            return render_template('login.html')
+
         return redirect(url_for('home',login_checker=login_checker,**request.args))
     return render_template('login.html')
 
@@ -261,7 +267,7 @@ def passenger():
     tpnr=tdata.PNR
    
 
-    return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr)
+    return render_template('passenger.html',name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr)
     #return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category)
 
 

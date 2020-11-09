@@ -151,3 +151,11 @@ a {
     cursor: pointer;
     color: yellow;
 }
+
+.error {
+    color: white;
+    font-family: var(--Montserrat-font, sans-serif);
+    font-size: 1em;
+    font-weight: 700;
+    margin-right: 5 rem;
+}

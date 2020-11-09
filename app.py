@@ -145,7 +145,8 @@ class Ticket(db.Model):
 #-----------------------------------Routes------------------------------
 
 
-login_checker=""
+login_checker="Login"
+
 
 
 @app.route('/')
@@ -500,7 +501,7 @@ def costPredictor():
 
         op='Predicted Ticket Price: ' +  "Rs." + str(cp)
         #print ('Predicted Ticket Price: \n', "Rs.",cp)
-        return render_template('costPredictor3.html',op=op)
+        return render_template('costPredictor3.html',op=op,login_checker=login_checker)
 
     return render_template('costPredictor3.html',login_checker=login_checker)
 

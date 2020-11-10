@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="error">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+                
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        
+        
+    </div>
+        {% else %}
+
+
+        <h1> your ticket has been booked !</h1>
+        <h1> PNR : {{ pnr  }}</h1>
+
+        {% endif %}
+        {% endwith %}
+
+        <h3>Return
+            <a href="/"><label>Home</label></a>
+        </h3>
+
+
+
+</body>
+</html>

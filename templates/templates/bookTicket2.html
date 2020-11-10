@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goRail</title>
+    <link rel="stylesheet" href="../static/assets/css/bookTicket.css">
+    <link rel="icon" href="../static/assets/img/goRailPng.png">
+</head>
+
+<body>
+    <main class="container">
+        <nav class="navBar">
+            <div class="navLogo"><img src="../static/assets/img/goRailPng.png"></div>
+            <div class="navLinks-middle">
+                <div><a href="/home"><label>Home</label></a></div>
+                <div id="bookTicket"><a href="/bookTicket"><label>Book Tickets</label></a></div>
+                <div id="costPredictor"><a href="/costPredictor"><label>Cost Predictor</label></a></div>
+
+                </div>
+            </div>
+        </nav>
+        <!-- COST FORM -->
+        <div class="mid-container">
+            <div class="formContainer">
+                <form action="#" method="POST" class="ticketForm">
+                    <div class="formElements">
+                        <label for="departure"> Passenger Id</label>
+                        <input type="text" id="Passenger_id" name="Passenger_id">
+                    </div>
+                    <div class="formElements">
+                        <label for="departure">Departure From</label>
+                        <input type="text" id="departure" name="departure">
+                    </div>
+                    <div class="formElements">
+                        <label for="arrival">Arrival At</label>
+                        <input type="text" id="arrival" name="arrival">
+                    </div>
+                    <div class="formElements">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" >
+                    </div>
+                    <div class="formElements">
+                        <label for="concession">Concession</label>
+                        <input type="text" id="concession" name="concession"> 
+                    </div>
+                    <div class="formElements">
+                        <label for="trainClass">Train Class</label>
+                        <input type="text" id="trainClass" name="trainClass">
+                    </div>
+                    <div class="formElements">
+                        <label for="trainClass">Train Type</label>
+                        <input type="text" id="trainClass" name="trainType">
+                    </div>
+                    <div class="loginButton">
+                        <div>
+                            <button type="submit" value="Submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="image-container">
+                <img src="../static/assets/img/boardingPassGif.gif" alt="Boarding Bitch!">
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>

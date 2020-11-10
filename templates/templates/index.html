@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goRail</title>
+    <link rel="stylesheet" href="../static/assets/css/main.css">
+    <link rel="icon" href="../static/assets/img/goRailPng.png">
+</head>
+
+<body>
+    <main class="container">
+        <nav class="navBar">
+            <div class="navLogo"><img src="../static/assets/img/goRailPng.png"></div>
+            <div class="navLinks-middle">
+                <div><a href="/"><label>Home</label></a></div>
+                <div><a href="/bookTicket"><label>Book Tickets</label></a></div>
+                <div><a href="/costPredictor"><label>Cost Predictor</label></a></div>
+                {% if login_checker == 'Login' %}
+                    <div class="navButton-login"><button type="button"
+                    onclick='window.location.href="/login"'>Login</button></div>
+                {% else %}
+                    <div class="navButton-login"><button type="button"
+                    onclick='window.location.href="/passenger"'>{{ login_checker }}</button></div>
+                    <div><a href="/logout"><label>Logout</label></a></div>
+                {% endif %}
+<!--                 
+                <span>
+                    {% if userName != 'Login' %}
+                    <a href="/" style="color: white;">
+                        Logout
+                    </a>
+                    {% endif %}
+                </span>
+                <div class="navButton-login"><button type="button"
+                        onclick='window.location.href="/login"'>Login</button></div> -->
+                        
+            </div>
+        </nav>
+        <div class="main-container">
+            <h1>Welcome to go Rail</h1>
+            <h1>Train Ticketing Service</h1>
+            <div class="signUp">
+                <h3>Don't have an account?<br>
+                    <a href="/signUp"><label>Sign up here.</label></a>
+                </h3>
+                <br><br>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                         
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+
+
+    </main>
+</body>
+
+</html>

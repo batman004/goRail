@@ -186,7 +186,8 @@ def login():
             flash("Please enter correct credentials")
             return render_template('login.html')
 
-        return redirect(url_for('home',login_checker=login_checker,**request.args))
+        #return redirect(url_for('/home',login_checker=login_checker,**request.args))
+        return redirect(url_for('index'))
     return render_template('login.html')
 
 
@@ -214,7 +215,6 @@ def signup():
         passenger_address=request.form['address']
         passenger_category=request.form['category']
         #hashed_pswd = sha256_crypt.hash('password') 
-        login_checker=passenger_name
 
 
         #print(passenger_name, passenger_email, passenger_phoneno, password)
@@ -229,7 +229,7 @@ def signup():
             flash('Successfully Signed Up !')
             login_checker=passenger_name
             # global passenger_name
-            return redirect(url_for('home',login_checker=login_checker, **request.args))#error='You have already Signed up !'
+            return redirect(url_for('index',login_checker=login_checker, **request.args))#error='You have already Signed up !'
 
             #send_mail(customer, dealer, rating, comments)
         
@@ -257,19 +257,21 @@ def passenger():
 
 
     tdata=Ticket.query.filter_by(Passengerid=ppid).first()
-    
-    tname=tdata.Train_Name
-    Date_of_T=tdata.Date_of_travel
-    Time_of_Departure=tdata.Time_of_departure
-    Time_of_arrival=tdata.Time_of_arrival
-    D_From=tdata.place_of_Departure
-    A_at=tdata.place_of_Arrival
-    tcost=tdata.cost_of_ticket
-    tpnr=tdata.PNR
-   
+    if tdata is not None:
 
-    return render_template('passenger.html',name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr)
-    #return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category)
+        tname=tdata.Train_Name
+        Date_of_T=tdata.Date_of_travel
+        Time_of_Departure=tdata.Time_of_departure
+        Time_of_arrival=tdata.Time_of_arrival
+        D_From=tdata.place_of_Departure
+        A_at=tdata.place_of_Arrival
+        tcost=tdata.cost_of_ticket
+        tpnr=tdata.PNR
+    
+        return render_template('passenger.html',name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr)
+    else:
+
+        return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category)
 
 
 
@@ -370,6 +372,7 @@ def booking():
         time_of_arr=y['Arrival time'].loc[idx]
         pnr = random.randint(1000000, 9999999)
 
+
         # pdata=db.session.query(Passenger.Passenger_id).filter_by(name=login_checker).first()
         # print(pdata)
 
@@ -386,11 +389,13 @@ def booking():
 
             ppid=pdata.Passenger_id
 
-            data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
-            db.session.add(data2)
-            db.session.commit()
-        
-            return redirect(url_for('success',data=y.to_html(), pnr=pnr,**request.args,login_checker=login_checker))#error='You have already Signed up !'
+            # data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
+            # db.session.add(data2)
+            # db.session.commit()
+            LST=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
+            #return redirect(url_for('success',data=y.to_html(), pnr=pnr,**request.args,login_checker=login_checker))#error='You have already Signed up !'
+            return redirect(url_for('success',data=y.to_html(),trainn=trainn,concession=concession,date=date,time_of_dep=time_of_dep,time_of_arr=time_of_arr,p_departure=p_departure,p_arrival=p_arrival,cost=cost,pnr=pnr,ppid=ppid,trainc=trainc ,**request.args,login_checker=login_checker))#error='You have already Signed up !'
+            
         else:
             flash('Please Login First !')
             return render_template("successbooking.html")
@@ -402,18 +407,43 @@ def booking():
 
 @app.route('/success',methods=["GET","POST"])
 def success():
+    global login_checker
+
     data=request.args['data']
+    trainn=request.args['trainn']
+    concession=request.args['concession']
+    date=request.args['date']
+    time_of_dep=request.args['time_of_dep']
+    time_of_arr=request.args['time_of_arr']
+    p_departure=request.args['p_departure']
+    p_arrival=request.args['p_arrival']
+    cost=request.args['cost']
+    pnr=request.args['pnr']
+    ppid=request.args['ppid']
+    trainc=request.args['trainc']
+
+    LST=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
+    print(LST)
     #print(daata)
     if request.method == "POST":
         choice=request.form['yes_no']
         print(choice)
         if choice=="yes":
-            pnr=request.args['pnr']
+            # pdata=Passenger.query.filter_by(name=login_checker).first()
+
+            # ppid=pdata.Passenger_id
+
+            data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
+            db.session.add(data2)
+            db.session.commit()
+
+            
             return render_template("successbooking.html",choice=choice,pnr=pnr)
         else:
+
             return redirect(url_for('booking'))#error='You have already Signed up !'
  
-    return render_template('itenary2.html',data=data)
+    return render_template('itenary2.html',data=data,cost=cost)
 
 
 
@@ -505,9 +535,11 @@ def costPredictor():
 
         else:
             cp=linear.predict([inputt])[0]*4.0 -40
+
+        cost=int(cp)
         
 
-        op='Predicted Ticket Price: ' +  "Rs." + str(cp)
+        op='Predicted Ticket Price: ' +  "Rs." + str(cost)
         #print ('Predicted Ticket Price: \n', "Rs.",cp)
         return render_template('costPredictor3.html',op=op,login_checker=login_checker)
 

@@ -140,3 +140,27 @@ main {
     font-weight: 700;
     margin-right: 5 rem;
 }
+
+.signUp {
+    text-align: center;
+    color: white;
+    margin-top: 3em;
+}
+.signUp > h3 {
+    font-family: var(--Montserrat-font, sans-serif);
+    font-weight: 700;
+    font-size: 1.3em;
+}
+.signUp > h3 > a > label {
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    line-height: 1.3em;
+}
+a {
+    color: inherit;
+}
+.signUp > h3 > a > label:hover {
+    cursor: pointer;
+    color: yellow;
+}
+

@@ -1,6 +1,7 @@
 #-------------------------------------imports------------------------------
 
 from flask import Flask,render_template,redirect,request,flash,url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -34,7 +35,7 @@ ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:<password>@localhost/gorail2'
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -60,7 +61,7 @@ class Passenger(db.Model):
     address = db.Column(db.String(200))
     phone_no=db.Column(db.BigInteger,unique=True)
     Category=db.Column(db.String(20))
-    Password=db.Column(db.String(40))
+    Password=db.Column(db.String(120))
     P_data=db.relationship('Ticket',backref='Passenger_Data',uselist=False)
 
     def __init__(self, name, email, age,gender,address,phone_no,Category,Password):
@@ -175,9 +176,12 @@ def login():
         # add check for already existing user or not and check if password matches
         exists = db.session.query(Passenger.Passenger_id).filter_by(email=passenger_email).scalar()
         print(exists)
-        pswd=db.session.query(Passenger.Password==passenger_password).filter_by(Password=passenger_password).scalar()
-        print(pswd)
-        if exists is not None and pswd is not None:
+        #pswd=db.session.query(Passenger.Password==passenger_password).filter_by(Password=passenger_password).scalar()
+        pdata=Passenger.query.filter_by(email=passenger_email).first()
+        pswd_check=check_password_hash(pdata.Password,passenger_password)  
+
+        print(pswd_check)
+        if exists is not None and pswd_check is True:
         
             name = Passenger.query.filter_by(email=passenger_email).first()
             login_checker=name.name
@@ -214,7 +218,8 @@ def signup():
         passenger_gender=request.form['gender']
         passenger_address=request.form['address']
         passenger_category=request.form['category']
-        #hashed_pswd = sha256_crypt.hash('password') 
+        hashed_pswd = generate_password_hash(password) 
+
 
 
         #print(passenger_name, passenger_email, passenger_phoneno, password)
@@ -223,7 +228,7 @@ def signup():
             return render_template('signUp2.html',error=error)
         
         if db.session.query(Passenger.Passenger_id).filter_by(name=passenger_name).count() == 0:
-            data= Passenger(passenger_name, passenger_email, passenger_age,passenger_gender, passenger_address,passenger_phoneno,passenger_category ,password)
+            data= Passenger(passenger_name, passenger_email, passenger_age,passenger_gender, passenger_address,passenger_phoneno,passenger_category ,hashed_pswd)
             db.session.add(data)
             db.session.commit()
             flash('Successfully Signed Up !')
@@ -240,7 +245,6 @@ def signup():
 @app.route('/passenger',methods=["GET","POST"])
 def passenger():
     #query data from database about passenger : name, email ..... and train data
-
     global login_checker
 
     pdata=Passenger.query.filter_by(name=login_checker).first()
@@ -268,10 +272,72 @@ def passenger():
         tcost=tdata.cost_of_ticket
         tpnr=tdata.PNR
     
-        return render_template('passenger.html',name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr)
+        return render_template('passenger.html',name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr,tcheck=True)
+
     else:
 
-        return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category)
+        return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tcheck=False)
+
+
+
+@app.route('/cancel1',methods=["POST","GET"])
+def cancel1():
+    global login_checker
+
+    # pdata=Passenger.query.filter_by(name=login_checker).first()
+    # ppid=pdata.Passenger_id
+    # tdata=Ticket.query.filter_by(Passengerid=ppid)
+
+    if request.method == 'POST':
+
+
+        pnr=request.form["pnr"]
+
+        # tdata=Ticket.query.filter_by(PNR=pnr).first()
+
+        # print(tdata.all())
+
+        # db.session.delete(tdata)
+        # db.session.commit()
+
+        return redirect(url_for('cancel2',pnr=pnr, **request.args))#error='You have already Signed up !'
+    return render_template('cancel.html')
+
+@app.route('/cancel2',methods=["GET","POST"])
+def cancel2():
+
+    # pdata=Passenger.query.filter_by(name=login_checker).first()
+    # ppid=pdata.Passenger_id
+    # tdata=Ticket.query.filter_by(Passengerid=ppid)
+
+
+    global login_checker
+
+    pnr=request.args['pnr']
+    if request.method == 'POST':
+        choice=request.form['yes_no']
+        print(choice)
+        if choice=="yes":
+            tdata=Ticket.query.filter_by(PNR=pnr).first()
+
+            #print(tdata.all())
+
+            db.session.delete(tdata)
+            db.session.commit()
+        
+
+            flash("Ticket Cancelled")
+        else:
+
+            return redirect(url_for('passenger'))#error='You have already Signed up !'
+
+
+
+        return render_template('cancel1.html')
+    return render_template('cancel1.html')
+
+
+        
 
 
 

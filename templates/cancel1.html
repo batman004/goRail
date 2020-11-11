@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itenary</title>
+    <link rel="stylesheet" href="../static/assets/css/cancel1.css">
+    
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        
+            <div class="error">
+                        
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+            </div>
+        
+        {% else %}
+
+            <div class="loginMiddle">
+                <div class="main-container">
+                    <form name="myForm" action="#" method="post">
+                        <div id="wrapper">
+                            <div id="wrapper-text">Do you want to procede to CANCEL the ticket ? :</div>
+                            <div class="radio-wrapper">
+                                <div class="radioBtn">
+                                    <input type="radio" name="yes_no" id="yes" value="yes"></input>
+                                    <label for="yes">Yes</label>
+                                </div>
+                                <div class="radioBtn">
+                                    <input type="radio" name="yes_no" id="no" value="no"></input>
+                                    <label for="no">No</label>
+                                </div>
+                            </div>
+                            <div class="submitBtn">
+                                <button type="submit" value="Submit">SUBMIT</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+                
+        {% endif %}
+        {% endwith %}
+    <div class="signUp">
+        <h3>Return
+            <a href="/"><label>Home</label></a>
+        </h3>
+    </div>
+    
+</body>
+
+</html>

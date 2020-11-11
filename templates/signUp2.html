@@ -16,16 +16,11 @@
 
     {% if error %}
     <div class="error">
-       
-
         <p><strong>Error:</strong> {{ error }} </p>
-    
     </div>
     {% endif %}
 
     <main>
-    
-
         <div class="formContainer">
             <form action="/signUp" method="POST" class="signupForm">
                 <div class="formElements">
@@ -38,7 +33,7 @@
                 </div>
                 <div class="formElements">
                     <label for="phoneNumber">Phone No</label>
-                    <input type="text" maxlength="10" size="10" id="phoneNumber" name="phoneNumber"  required>
+                    <input type="text" maxlength="10" size="10" id="phoneNumber" name="phoneNumber" required>
                 </div>
                 <div class="formElements">
                     <label for="address">Address</label>
@@ -46,46 +41,42 @@
                 </div>
                 <div class="formElements">
                     <label for="gender">Gender</label>
-                    <input type="text" id="gender" name="gender" required >
+                    <input type="text" id="gender" name="gender" required>
                 </div>
                 <div class="formElements">
                     <label for="category">Category</label>
-                    <input type="text" id="category" name="category"  required>
+                    <input type="text" id="category" name="category" required>
                 </div>
                 <div class="formElements">
                     <label for="password">Password</label>
-                    <input type="password" minlength="8" id="password" name="password"  required>
+                    <input type="password" minlength="8" id="password" name="password" required>
                 </div>
                 <div class="formElements">
                     <label for="age">Age</label>
-                    <input type="text"  id="age" name="age"  required>
+                    <input type="text" id="age" name="age" required>
                 </div>
                 <div class="signupButton">
                     <button type="submit" value="Submit">Signup</button>
                 </div>
             </form>
         </div>
-        
+
         <div class="parent">
-            <img class="giftrain" src="../static/assets/img/giftrain.gif" alt="no prev">
-            <img class="GoRailLogo" src="../static/assets/img/goRail_SignupLogo.png" alt="Go Rail!">
+            <div>
+                <img class="giftrain" src="../static/assets/img/giftrain.gif" alt="no prev">
+            </div>
+            <div>
+                <img class="GoRailLogo" src="../static/assets/img/goRail_SignupLogo.png" alt="Go Rail!">
+            </div>
         </div>
     </main>
 
-    <!-- {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="error"  >          
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    </div>    
-    {% endif %}
-    {% endwith %}
- -->
-    
 
+    <div class="signUp">
+        <h3>Return
+            <a href="/"><label>Home</label></a>
+        </h3>
+    </div>
 
 </body>
 

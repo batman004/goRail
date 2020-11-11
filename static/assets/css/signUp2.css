@@ -22,7 +22,7 @@ header {
     margin-top: 1rem;
 }
 h1 {
-    font-size: 3em;
+    font-size: 2.4em;
     color: white;
     letter-spacing: 0.1em;
     font-weight: 700;
@@ -32,51 +32,44 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 2em;
     /* background-color: aquamarine; */
 }
 .parent {
-    position: relative;
-    top: 0;
-    left: 0;
-}
-.giftrain {
     display: flex;
     position: relative;
-    border-radius: 6rem;
-    top: -4px;
-    left: -4px;
-    width: 37rem;
-    height: 19rem;
-    padding-top: 2rem;
-    padding-right: 6rem;
-    padding-bottom: 4rem;
+    flex-direction: column;
+    width: 40%;
+    /* background-color: rgb(35, 185, 185); */
+}
+.giftrain {
+    margin-top: 1rem;
+    height: 50%;
+    width: 100%;
+    border-radius: 1rem;
+    /* background-color: green; */
 }
 .GoRailLogo {
     position: absolute;
-    top: 301px;
-    left: 72px;
-    padding-left: 4rem;
-    padding-bottom: 6rem;
-    height: 14rem;
-}
-
-.formContainer {
+    top: 50%;
+    left: 35%;
+    height: 100px;
+    width: 100px;
     /* background-color: red; */
 }
+
 .signupForm {
     display: flex;
     flex-direction: column;
     align-self: center;
-    /* margin-top: 2em; */
     /* background-color: bisque; */
 }
 .formElements {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 1em;
+    margin-top: 0.6em;
 }
 .formElements > label {
     margin-right: 2em;
@@ -89,7 +82,7 @@ main {
     font-family: var(--Montserrat-font, sans-serif);
 }
 .formElements > input {
-    height: 2.5em;
+    height: 2.4em;
     width: 14em;
     padding-left: 0.6em;
     font-weight: 700;
@@ -163,4 +156,3 @@ a {
     cursor: pointer;
     color: yellow;
 }
-

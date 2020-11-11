@@ -191,3 +191,32 @@ a {
     text-align: center;
     /* background-color: black; */
 }
+
+
+.loginButton {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 2.5em;
+}
+.loginButton > div > button {
+    width: 6em;
+    height: 2em;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 0.7em;
+    background-color: var(--submitBtn-color);
+    color: blue;
+    font-family: var(--Montserrat-font);
+    font-weight: 700;
+    font-size: 1.4em;
+}
+.loginButton > div > button:hover {
+    color: yellow;
+    cursor: pointer;
+    background-color: #3f3c3c;
+}
+.loginButton > button:active {
+    color: blue;
+    background-color: rgb(255, 102, 0);
+}
+

@@ -61,7 +61,7 @@ if ENV == 'dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://srcqpfvyqpgmmg:1fbe09d5398cdc144125af413cd85ada825f391f2b3e3be3a5640cde64c285b0@ec2-54-234-44-238.compute-1.amazonaws.com:5432/d7v9jcuf5v6bha'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bzylmfdthdcurb:09096139272eea66b25ad80daf89e1b651a341422ba5e75a2e6acb9ff4a2229c@ec2-34-236-215-156.compute-1.amazonaws.com:5432/d89m417hl20htl'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

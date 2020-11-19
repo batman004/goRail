@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+:root {
+    --navBar-color: #016484;
+    --loginBtn-color: #bce3fa;
+    --inputField-color: #007bba;
+    --homePageBackground-color: #3f3c3c;
+    --Montserrat-font: "Montserrat";
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+body {
+    background-color: black;
+}
+header {
+    display: flex;
+    justify-content: center;
+}
+header > img {
+    width: 7em;
+    height: auto;
+}
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-top: 2em;
+}
+
+
+
+
+.error {
+    color: white;
+    font-family: var(--Montserrat-font, sans-serif);
+    font-size: 1em;
+    font-weight: 700;
+    margin-right: 5 rem;
+}

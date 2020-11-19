@@ -1,14 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
-:root {
-    --navBar-color: #016484;
-    --submitBtn-color: #bce3fa;
-    --loginBtn-color: #2c4268;
-    --inputField-color: #007bba;
-    --homePageBackground-color: #3f3c3c;
-    --Montserrat-font: "Montserrat";
-}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -16,17 +10,14 @@
     /* overflow-y: hidden; */
     box-sizing: border-box;
 }
-html {
-    height: 100%;
-}
+
 body {
-    min-height: 100%;
-    display: grid;
-    grid-template-rows: 1fr;
+    background-color: black;
+    color: white;
+    font-family: var(--Montserrat-font);
 }
-a {
-    text-decoration: none;
-}
+
+
 button:focus {
     outline: none;
 }
@@ -36,106 +27,7 @@ input:focus {
 .container {
     background-color: black;
 }
-.navBar {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: var(--navBar-color);
-}
-.navLogo {
-    display: flex;
-    flex-wrap: wrap;
-    flex-basis: 10%;
-    flex-shrink: 1;
-}
-.navLogo > img {
-    width: 7em;
-    height: auto;
-    justify-content: flex-start;
-}
-.navLinks-middle {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-basis: 90%;
-    flex-shrink: 3;
-    justify-content: space-around;
-    align-items: center;
-}
-.navLinks-middle > div {
-    padding: 0 0.4em;
-    margin-right: 1em;
-}
-.navLinks-middle > div > a > label:hover {
-    color: yellow;
-    cursor: pointer;
-}
-.navLinks-middle > div > a > label {
-    font-family: var(--Montserrat-font, sans-serif);
-    font-weight: 700;
-    font-size: 2em;
-    font-style: italic;
-    color: rgb(0, 0, 0);
-}
-.navLinks-middle > #bookTicket > a > label {
-    font-family: var(--Montserrat-font, sans-serif);
-    font-weight: 900;
-    font-size: 2em;
-    font-style: italic;
-    /* color: rgb(0, 0, 0); */
-}
-/* hover effect for book tickets */
-.navLinks-middle > #bookTicket > a > label:hover {
-    color: white;
-}
-.navButton-login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.navButton-login > button {
-    width: 7em;
-    height: 2em;
-    border: 5px solid rgb(0, 0, 0);
-    border-radius: 0.7em;
-    background-color: var(--loginBtn-color);
-    color: #ffffff;
-    font-family: var(--Montserrat-font);
-    font-weight: 700;
-    font-size: 2em;
-}
-.navButton-login > button:hover {
-    color: yellow;
-    cursor: pointer;
-    background-color: #3f3c3c;
-}
-.navButton-login > button:active {
-    color: black;
-    background-color: rgb(255, 102, 0);
-}
-.navButton-login > button:focus {
-    outline: none;
-}
-/* NAV ENDS --------------------- */
 
-.image-container {
-    display: flex;
-    justify-content: center;
-    width: 40%;
-    /* background-color: azure; */
-}
-.image-container > img {
-    width: 60%;
-}
-
-.mid-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    /* background-color: aqua; */
-}
 .formContainer {
     display: flex;
     flex-direction: row;
@@ -145,72 +37,28 @@ input:focus {
     /* background-color: aquamarine; */
     height: 80%;
 }
-.ticketForm {
-    display: flex;
-    flex-direction: column;
-    align-items: space-around;
-    margin-top: 2em;
-    /* background-color: aqua; */
-}
-.ticketForm > .formElements {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 1.3em;
-}
 
-.ticketForm > div > label {
-    align-self: center;
-    color: white;
-    font-weight: 400;
-    letter-spacing: 0.3em;
-    font-size: 1.4em;
-    line-height: 1.4em;
-    font-family: var(--Montserrat-font, sans-serif);
-    margin-right: 1em;
-}
+.formElements {
 
-.ticketForm > div > input {
-    height: 3em;
-    width: 14em;
-    padding-left: 0.6em;
-    font-weight: 700;
-    font-size: 1em;
-    font-family: var(--Montserrat-font, sans-serif);
-    color: white;
-    line-height: 1.4em;
-    background-color: var(--inputField-color);
-    border-radius: 2em;
-    border: none;
-}
-/*  */
-
-/* Button  */
-.loginButton {
-    display: flex;
     text-align: center;
+    color: white;
+
+}
+
+.submitBtn {
+    display: flex;
     justify-content: center;
-    margin-top: 2.5em;
 }
-.loginButton > div > button {
-    width: 6em;
-    height: 2em;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 0.7em;
-    background-color: var(--submitBtn-color);
-    color: black;
+button[type="Submit"] {
     font-family: var(--Montserrat-font);
+    font-size: 1em;
     font-weight: 700;
-    font-size: 1.4em;
+    color: white;
+    background-color: var(--infoPane-color);
+    border: none;
+    border-radius: 2rem;
+    letter-spacing: 2px;
+    width: 7rem;
+    height: 2rem;
+    margin-bottom: 2rem;
 }
-.loginButton > div > button:hover {
-    color: yellow;
-    cursor: pointer;
-    background-color: #3f3c3c;
-}
-.loginButton > button:active {
-    color: black;
-    background-color: rgb(255, 102, 0);
-}
-
-

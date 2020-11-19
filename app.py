@@ -102,7 +102,7 @@ class Passenger(db.Model):
 
 class Ticket(db.Model):
 
-    __tablename__='Ticket'
+    __tablename__='ticket'
     ticket_id=db.Column(db.Integer,primary_key=True)
     #Train_Class=db.Column(db.String(10))
     Train_Name=db.Column(db.String(60))

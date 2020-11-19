@@ -5,16 +5,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_sqlalchemy import SQLAlchemy
 
+#from flask_mail import Mail, Message
+#from flaskext.mail import Mail, Message
+
 from datetime import datetime
 import calendar
 
-#from passlib.hash import pbkdf2_sha256
-#from models import *
 import random
 import pickle
 import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
+#from send_mail import send_mail
+
 
 import numpy as np
 data = pd.read_csv('trainsxx.csv')
@@ -35,7 +38,7 @@ ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:<password>@localhost/gorail2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/gorail2'
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -47,14 +50,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-#----------------------------------------DATABASE CLASSES----------------
+
+#----------------------------------------DATABASE CLASSES--------------------------
 
 
 class Passenger(db.Model):
 
     __tablename__='passenger'
     Passenger_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), unique=True)
+    name = db.Column(db.String(20))
     email = db.Column(db.String(200))
     age = db.Column(db.Integer)
     gender = db.Column(db.String(2))
@@ -73,36 +77,6 @@ class Passenger(db.Model):
         self.phone_no = phone_no
         self.Category = Category
         self.Password = Password
-
-# class Train(db.Model):
-#     __tablename__='trains'
-#     train_no=db.Column(db.Integer,primary_key=True)
-#     train_name=db.Column(db.VARCHAR(20))
-#     seq=db.Column(db.Integer)
-#     station_code=db.Column(db.VARCHAR(4))
-#     station_name=db.Column(db.VARCHAR(40))
-#     arrival_time=db.Column(db.Time)
-#     departure_time =db.Column(db.Time, primary_key=True)
-#     distance=db.Column(db.Integer)
-#     source_station=db.Column(db.VARCHAR(4))
-#     source_station_name=db.Column(db.VARCHAR(40))
-#     destination_station=db.Column(db.VARCHAR(4))
-#     destination_station_name=db.Column(db.VARCHAR(40))
-
-#     def __init__(self, train_no, train_name, seq,station_code,station_name,arrival_time,departure_time,distance,source_station,source_station_name,destination_station,destination_station_name):
-#         self.train_no = train_no
-#         self.train_name = train_name
-#         self.seq = seq
-#         self.station_code = station_code
-#         self.station_name = station_name
-#         self.arrival_time = arrival_time
-#         self.departure_time = departure_time
-#         self.distance = distance
-#         self.source_station = source_station
-#         self.source_station_name = source_station_name
-#         self.destination_station = destination_station
-#         self.destination_station_name = destination_station_name
-
 
 
 
@@ -177,15 +151,24 @@ def login():
         exists = db.session.query(Passenger.Passenger_id).filter_by(email=passenger_email).scalar()
         print(exists)
         #pswd=db.session.query(Passenger.Password==passenger_password).filter_by(Password=passenger_password).scalar()
-        pdata=Passenger.query.filter_by(email=passenger_email).first()
-        pswd_check=check_password_hash(pdata.Password,passenger_password)  
+        # pdata=Passenger.query.filter_by(email=passenger_email).first()
+        # pswd_check=check_password_hash(pdata.Password,passenger_password)  
 
-        print(pswd_check)
-        if exists is not None and pswd_check is True:
+        #print(pswd_check)
+        if exists is not None:
+
+            pdata=Passenger.query.filter_by(email=passenger_email).first()
+            pswd_check=check_password_hash(pdata.Password,passenger_password)  
+            print(pswd_check)
         
-            name = Passenger.query.filter_by(email=passenger_email).first()
-            login_checker=name.name
-            flash('You were successfully logged in')
+            if pswd_check is True:
+
+                name = Passenger.query.filter_by(email=passenger_email).first()
+                login_checker=name.name
+                flash('You were successfully logged in')
+            else:
+                flash('Please enter Correct password')
+                return render_template('login.html')
         else:
             flash("Please enter correct credentials")
             return render_template('login.html')
@@ -193,6 +176,8 @@ def login():
         #return redirect(url_for('/home',login_checker=login_checker,**request.args))
         return redirect(url_for('index'))
     return render_template('login.html')
+
+
 
 
 @app.route('/logout')
@@ -205,8 +190,11 @@ def logout():
     
 
 
+
+
 @app.route('/signUp',methods=["POST","GET"])
 def signup():
+    global login_checker
     #login_checker="Login"
     error=None
     if request.method == 'POST':
@@ -220,26 +208,26 @@ def signup():
         passenger_category=request.form['category']
         hashed_pswd = generate_password_hash(password) 
 
-
-
-        #print(passenger_name, passenger_email, passenger_phoneno, password)
-        if passenger_name == '' or passenger_email == '' or password == '' or passenger_email == '' or passenger_gender==''  or passenger_address == '' or passenger_age=='':
-            error = 'Enter data in all feilds. Please try again!'
-            return render_template('signUp2.html',error=error)
         
-        if db.session.query(Passenger.Passenger_id).filter_by(name=passenger_name).count() == 0:
+        if db.session.query(Passenger.Passenger_id).filter_by(email=passenger_email).count() == 0:
             data= Passenger(passenger_name, passenger_email, passenger_age,passenger_gender, passenger_address,passenger_phoneno,passenger_category ,hashed_pswd)
             db.session.add(data)
             db.session.commit()
             flash('Successfully Signed Up !')
             login_checker=passenger_name
             # global passenger_name
-            return redirect(url_for('index',login_checker=login_checker, **request.args))#error='You have already Signed up !'
+            return redirect(url_for('index'))
 
-            #send_mail(customer, dealer, rating, comments)
+        else:
+            error='You have already Signed up using this email !'
+            return render_template('signUp2.html',error=error)
+
+
         
     return render_template('signUp2.html')
-        # if db.session.query(Signup).filter(Passengers.name == passenger_name).count() == 0:
+
+
+
 
 
 @app.route('/passenger',methods=["GET","POST"])
@@ -277,6 +265,9 @@ def passenger():
     else:
 
         return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tcheck=False)
+
+
+
 
 
 
@@ -437,16 +428,6 @@ def booking():
         idx=y.index[y['Station Name']==p_arrival][0]
         time_of_arr=y['Arrival time'].loc[idx]
         pnr = random.randint(1000000, 9999999)
-
-
-        # pdata=db.session.query(Passenger.Passenger_id).filter_by(name=login_checker).first()
-        # print(pdata)
-
-        #lst=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
-        #sprint(lst)
-
-        #def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
-       
         
         #print(data2)
         if(login_checker !="Login"):
@@ -471,6 +452,9 @@ def booking():
 
 
 
+
+
+
 @app.route('/success',methods=["GET","POST"])
 def success():
     global login_checker
@@ -490,6 +474,12 @@ def success():
 
     LST=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
     print(LST)
+
+    pdata=Passenger.query.filter_by(name=login_checker).first()
+
+    pemail=pdata.email
+    pname=pdata.name
+    msg=''
     #print(daata)
     if request.method == "POST":
         choice=request.form['yes_no']
@@ -502,14 +492,18 @@ def success():
             data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
             db.session.add(data2)
             db.session.commit()
-
-            
+            msg= f"Here are your Ticket Details :\n  Name :{pname} \n Train : {trainn} \n Date : {date}\n Time of Departure : {time_of_dep} \nTime of Arrival : {time_of_arr}\n Departure : {p_departure}\n Arrivaal : {time_of_arr}\n Cost : {cost}\nPNR : {pnr} "
+            print(msg)
+            # sendmail(msg,pemail)
             return render_template("successbooking.html",choice=choice,pnr=pnr)
         else:
 
             return redirect(url_for('booking'))#error='You have already Signed up !'
  
     return render_template('itenary2.html',data=data,cost=cost)
+
+
+
 
 
 
@@ -606,7 +600,6 @@ def costPredictor():
         
 
         op='Predicted Ticket Price: ' +  "Rs." + str(cost)
-        #print ('Predicted Ticket Price: \n', "Rs.",cp)
         return render_template('costPredictor3.html',op=op,login_checker=login_checker)
 
     return render_template('costPredictor3.html',login_checker=login_checker)

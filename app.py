@@ -34,14 +34,34 @@ app=Flask(__name__)
 app.secret_key = "thisisasecretkey"
 
 
-ENV = 'dev'
+#--------------------for mail sending ---------
+# mail = Mail(app)
+# app.config['MAIL_SERVER']='smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USERNAME'] = 'bas5rocker269@gmail.com'
+# app.config['MAIL_DEFAULT_SENDER'] = 'bas5rocker269@gmail.com'
+# app.config['MAIL_PASSWORD'] = 'bas5rockerpro@269'
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USE_SSL'] = True
+# mail = Mail(app) 
+ 
+# def sendmail(msg,recipient): 
+#    msg = Message( msg,  
+#                 recipients = [recipient] 
+#                ) 
+#    msg.body = 'YOUR TICKET BOOKING'
+#    mail.send(msg) 
+
+#----------------------------------------------
+
+ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/gorail2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://srcqpfvyqpgmmg:1fbe09d5398cdc144125af413cd85ada825f391f2b3e3be3a5640cde64c285b0@ec2-54-234-44-238.compute-1.amazonaws.com:5432/d7v9jcuf5v6bha'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -428,6 +448,16 @@ def booking():
         idx=y.index[y['Station Name']==p_arrival][0]
         time_of_arr=y['Arrival time'].loc[idx]
         pnr = random.randint(1000000, 9999999)
+
+
+        # pdata=db.session.query(Passenger.Passenger_id).filter_by(name=login_checker).first()
+        # print(pdata)
+
+        #lst=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
+        #sprint(lst)
+
+        #def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
+       
         
         #print(data2)
         if(login_checker !="Login"):
@@ -600,6 +630,7 @@ def costPredictor():
         
 
         op='Predicted Ticket Price: ' +  "Rs." + str(cost)
+        #print ('Predicted Ticket Price: \n', "Rs.",cp)
         return render_template('costPredictor3.html',op=op,login_checker=login_checker)
 
     return render_template('costPredictor3.html',login_checker=login_checker)

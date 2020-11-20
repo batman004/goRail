@@ -17,6 +17,11 @@ A One Stop Solution for all your railway ticketing needs !
 <img src="https://user-images.githubusercontent.com/58564635/98534297-4443a280-22aa-11eb-9153-7f14ae0c6113.png">
 <img src="https://user-images.githubusercontent.com/58564635/98794258-d5dc1d00-242e-11eb-854e-9484060b3541.png">
 
+- [x]  Cancelling Tickets
+<img src="https://user-images.githubusercontent.com/58564635/99798036-48977780-2b56-11eb-97c2-181593fe489c.png">
+<img src="https://user-images.githubusercontent.com/58564635/99798091-649b1900-2b56-11eb-87a3-878ca54baa93.png">
+
+
 - [x]  Displaying Entire Passenger Details
 <img src="https://user-images.githubusercontent.com/58564635/98534487-94226980-22aa-11eb-99da-513b4e72d3b8.png">
 

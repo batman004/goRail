@@ -6,7 +6,7 @@ __pycache__
 # Virtualenv
 .env
 .venv
-gorail-env
+/gorail-env
 bin/
 include/
 pip-selfcheck.json

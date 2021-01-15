@@ -1,0 +1,7 @@
+__pycache__
+__pycache__/
+.vscode
+# environment files
+gorail-env/
+gorail-env/Lib
+gorail-env/Inlcude

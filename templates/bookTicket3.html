@@ -45,15 +45,38 @@
                     </div>
                     <div class="formElements">
                         <label for="concession">Concession</label>
-                        <input type="text" id="concession" name="concession" required> 
+                        <select id="concession" name="concession">
+                            <option value="" selected>Concession Type</option>
+                            <option value="Senior Citizen">Senior Citizen</option>
+                            <option value="general">General</option>
+                            <option value="Disabled">Disabled</option>
+                        </select>
+                        <!-- <input type="text" id="concession" name="concession" required> -->
                     </div>
                     <div class="formElements">
                         <label for="trainClass">Train Class</label>
-                        <input type="text" id="trainClass" name="trainClass" required>
+                        <select name="trainClass" id="trainClass" required>
+                            <option value="" selected>Train Class</option>
+                            <option value="1AC">1AC</option>
+                            <option value="2AC">2AC</option>
+                            <option value="SL">SL</option>
+                            <option value="1AC PLUS">1AC PLUS</option>
+                        </select>
+                        <!-- <input type="text" id="trainClass" name="trainClass" required> -->
                     </div>
                     <div class="formElements">
-                        <label for="trainClass">Train Type</label>
-                        <input type="text" id="trainType" name="trainType" required>
+                        <label for="trainType">Train Type</label>
+                        <select name="trainType" id="trainType" required>
+                            <option value="" selected>Train Type</option>
+                            <option value="Super Fast">Super Fast</option>
+                            <option value="Passenger Train">Passenger Train</option>
+                            <option value="Express Train">Express Train</option>
+                            <option value="INTERCITY">INTERCITY</option>
+                            <option value="MD-LD">MD-LD</option>
+                            <option value="MD">MD</option>
+                            <option value="LD-MD">LD-MD</option>
+                        </select>
+                        <!-- <input type="text" id="trainType" name="trainType" required> -->
                     </div>
 
                     <div class="loginButton">

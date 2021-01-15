@@ -545,14 +545,20 @@ def costPredictor():
 
 
     def convert_to_int(word):
-        word_dict = {'Super Fast':1, 'Passenger Train':2, 'Express Train':3, 'INTERCITY':4, 'MD-LD':5, 'MD': 6, 'LD-MD':7,0:0}
+        word_dict = {
+            'Super Fast':1, 
+            'Passenger Train':2, 
+            'Express Train':3, 
+            'INTERCITY':4, 
+            'MD-LD':5, 
+            'MD': 6, 
+            'LD-MD':7,0:0
+        }
         return word_dict[word]
-
 
     def convert_to_intt(word):
         word_dict = {'1AC':1, '2AC':2, 'SL':3, '1AC Plus':4,0:0}
         return word_dict[word]
-
 
 
     error=None
@@ -634,9 +640,6 @@ def costPredictor():
         return render_template('costPredictor3.html',op=op,login_checker=login_checker)
 
     return render_template('costPredictor3.html',login_checker=login_checker)
-
-
-  
 
 if __name__=='__main__':
     app.run() 

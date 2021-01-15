@@ -14,16 +14,40 @@
         <nav class="navBar">
             <div class="navLogo"><img src="../static/assets/img/goRailPng.png"></div>
             <div class="navLinks-middle">
-                <div><a href="/"><label>Home</label></a></div>
-                <div id="bookTicket"><a href="/bookTicket"><label>Book Tickets</label></a></div>
-                <div id="costPredictor"><a href="/costPredictor"><label>Cost Predictor</label></a></div>
+                <div>
+                    <a href="/">
+                        <label>Home</label>
+                    </a>
+                </div>
+
+                <div id="bookTicket">
+                    <a href="/bookTicket">
+                        <label>Book Tickets</label>
+                    </a>
+                </div>
+
+                <div id="costPredictor">
+                    <a href="/costPredictor">
+                        <label>Cost Predictor</label>
+                    </a>
+                </div>
                 {% if login_checker == 'Login' %}
-                    <div class="navButton-login"><button type="button"
-                    onclick='window.location.href="/login"'>Login</button></div>
+                    <div class="navButton-login">
+                        <button type="button"
+                            onclick='window.location.href="/login"'>Login
+                        </button>
+                </div>
                 {% else %}
-                    <div class="navButton-login"><button type="button"
-                    onclick='window.location.href="/passenger"'>{{ login_checker }}</button></div>
-                    <div><a href="/logout"><label>Logout</label></a></div>
+                    <div class="navButton-login">
+                        <button type="button"
+                    onclick='window.location.href="/passenger"'>{{ login_checker }}
+                        </button>
+                    </div>
+                    <div>
+                        <a href="/logout">
+                            <label>Logout</label>
+                        </a>
+                    </div>
                 {% endif %}
             </div>
         </nav>
@@ -47,25 +71,52 @@
                     </div>
                     <div class="formElements">
                         <label for="trainClass">Train Class</label>
-                        <input type="text" id="trainClass" name="trainClass" >
+                        <select name="trainClass" id="trainClass" required>
+                            <option value="" selected>Train Class</option>
+                            <option value="1AC">1AC</option>
+                            <option value="2AC">2AC</option>
+                            <option value="SL">SL</option>
+                            <option value="1AC PLUS">1AC PLUS</option>
+                        </select>
+                        <!-- <input type="text" id="trainClass" name="trainClass" required> -->
                     </div>
 
                     <div class="formElements">
-                        <label for="trainClass">Train Type</label>
-                        <input type="text" id="trainType" name="trainType" >
+                        <label for="trainType">Train Type</label>
+                        <select name="trainType" id="trainType" required>
+                            <option value="" selected>Train Type</option>
+                            <option value="Super Fast">Super Fast</option>
+                            <option value="Passenger Train">Passenger Train</option>
+                            <option value="Express Train">Express Train</option>
+                            <option value="INTERCITY">INTERCITY</option>
+                            <option value="MD-LD">MD-LD</option>
+                            <option value="MD">MD</option>
+                            <option value="LD-MD">LD-MD</option>
+                        </select>
+                        <!-- <input type="text" id="trainType" name="trainType" required> -->
                     </div>
-
 
                     <div class="formElements">
-                        <label for="trainClass">Fare Type</label>
-                        <input type="text" id="fare_type" name="fare_type" >
+                        <label for="fare_type">Fare Type</label>
+                        <select id="fare_type">
+                            <option value="" selected>Fare Type</option>
+                            <option value="Promo">Promo</option>
+                            <option value="Flexible">Flexible</option>
+                        </select>
+                        <!-- <input type="text" id="fare_type" name="fare_type" > -->
                     </div>
-
 
                     <div class="formElements">
                         <label for="concession">Concession</label>
-                        <input type="text" id="concession" name="concession">
+                        <select id="concession" name="concession">
+                            <option value="" selected>Concession Type</option>
+                            <option value="Senior Citizen">Senior Citizen</option>
+                            <option value="general">General</option>
+                            <option value="Disabled">Disabled</option>
+                        </select>
+                        <!-- <input type="text" id="concession" name="concession" required> -->
                     </div>
+
                     <div class="loginButton">
                         <div>
                             <button type="submit" value="Submit" >Submit</button>
@@ -75,19 +126,15 @@
             </div>
 
             {% if op %}
-            <div class="error">
-               
-        
-                <p> {{ op }} </p>
-            
-            </div>
+                <div class="error">
+                    <p> {{ op }} </p>
+                </div>
             {% endif %}
 
             <div class="image-container">
-                <img src="../static/assets/img/costPredGif.gif" alt="stonks Bitch!">
+                <!-- <img src="../static/assets/img/costPredGif.gif" alt="stonks Bitch!"> -->
             </div>
         </div>
-
     </main>
 </body>
 

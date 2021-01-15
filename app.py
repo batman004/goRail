@@ -378,6 +378,7 @@ def booking():
         date = request.form['date']
         concession = request.form['concession']
         train_class=request.form['trainClass']
+        print(train_class)
         train_type=request.form['trainType']
 
         trainc=train_class

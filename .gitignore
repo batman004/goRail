@@ -1,3 +1,6 @@
 gorail-env/
 __pycache__
+__pycache__/
 .vscode
+gorail-env/Lib
+gorail-env/Inlcude

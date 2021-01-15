@@ -119,16 +119,6 @@ input:focus {
 
 /* NAV ENDS --------------------- */
 
-.image-container {
-    display: flex;
-    justify-content: center;
-}
-.image-container > img {
-    width: 60%;
-    height: 40%;
-    border-radius: 1em;
-}
-
 .mid-container {
     display: flex;
     flex-direction: row;
@@ -136,6 +126,21 @@ input:focus {
     justify-content: space-around;
     align-items: center;
 }
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    background-image: url("../img/costPredGif.gif");
+    height: 16rem;
+    width: 25rem;
+    border-radius: 0.8em;
+}
+/* .image-container > img {
+    width: 60%;
+    height: 40%;
+    border-radius: 1em;
+} */
+
 .formContainer {
     display: flex;
     flex-direction: row;
@@ -143,7 +148,7 @@ input:focus {
     justify-content: space-around;
     align-items: center;
     /* background-color: aquamarine; */
-    margin-left: 2rem;
+    margin-left: 1.6rem;
     height: 80%;
 }
 .costForm {
@@ -184,6 +189,19 @@ input:focus {
     border-radius: 2em;
     border: none;
 }
+.formElements > select {
+    height: 3em;
+    width: 14em;
+    padding-left: 0.6em;
+    font-weight: 700;
+    font-size: 1em;
+    font-family: var(--Montserrat-font, sans-serif);
+    color: white;
+    line-height: 1.4em;
+    background-color: var(--inputField-color);
+    border-radius: 2em;
+    border: none;
+}
 /*  */
 
 /* Button  */
@@ -207,7 +225,7 @@ input:focus {
 .loginButton > div > button:hover {
     color: yellow;
     cursor: pointer;
-    background-color: #3f3c3c;
+    background-color: #b99797;
 }
 .loginButton > button:active {
     color: black;

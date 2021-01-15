@@ -141,16 +141,13 @@ input:focus {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    /* align-items: center; */
-    /* background-color: aquamarine; */
     height: 80%;
 }
 .ticketForm {
     display: flex;
     flex-direction: column;
     align-items: space-around;
-    margin-top: 2em;
-    /* background-color: aqua; */
+    margin-top: 1em;
 }
 .ticketForm > .formElements {
     display: flex;
@@ -183,6 +180,19 @@ input:focus {
     border-radius: 2em;
     border: none;
 }
+.ticketForm > div > select {
+    height: 3em;
+    width: 14em;
+    padding-left: 0.6em;
+    font-weight: 700;
+    font-size: 1em;
+    font-family: var(--Montserrat-font, sans-serif);
+    color: white;
+    line-height: 1.4em;
+    background-color: var(--inputField-color);
+    border-radius: 2em;
+    border: none;
+}
 /*  */
 
 /* Button  */
@@ -190,7 +200,7 @@ input:focus {
     display: flex;
     text-align: center;
     justify-content: center;
-    margin-top: 2.5em;
+    margin-top: 2em;
 }
 .loginButton > div > button {
     width: 6em;
@@ -206,7 +216,7 @@ input:focus {
 .loginButton > div > button:hover {
     color: yellow;
     cursor: pointer;
-    background-color: #3f3c3c;
+    background-color: #b99797;
 }
 .loginButton > button:active {
     color: black;

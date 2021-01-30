@@ -18,21 +18,17 @@ import warnings
 warnings.filterwarnings("ignore")
 #from send_mail import send_mail
 
-
 import numpy as np
 data = pd.read_csv('trainsxx.csv')
 trainsno = data['Train No'].unique()
 stations = data['Station Name'].unique()
 stations = np.array(stations)
 
-
 #-------------------------------configs--------------------------------------------
-
 
 app=Flask(__name__)
 
 app.secret_key = "thisisasecretkey"
-
 
 #--------------------for mail sending ---------
 # mail = Mail(app)
@@ -58,21 +54,23 @@ ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
+    Development_Database_URI = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = Development_Database_URI
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cwdxrtpyxksiyu:9b4ec83827aaeda7bdf2740a22cd03742caf3d94835745ce711226274ede18d7@ec2-34-237-166-54.compute-1.amazonaws.com:5432/dmq6enggu0l4j'
+    Production_Database_URI = 'postgres://cwdxrtpyxksiyu:' \
+    '9b4ec83827aaeda7bdf2740a22cd03742caf3d94835745ce711226274ede18d7' \
+    '@ec2-34-237-166-54.compute-1.amazonaws.com:5432/dmq6enggu0l4j'
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = Production_Database_URI
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 
-
 db = SQLAlchemy(app)
 
-
 #----------------------------------------DATABASE CLASSES--------------------------
-
 
 class Passenger(db.Model):
 
@@ -98,8 +96,6 @@ class Passenger(db.Model):
         self.Category = Category
         self.Password = Password
 
-
-
 class Ticket(db.Model):
 
     __tablename__='ticket'
@@ -120,7 +116,6 @@ class Ticket(db.Model):
     #Train_Type=db.Column(db.String(30))
     #train_data=db.Column(db.Integer,ForeignKey('train.train_no'))
 
-
     def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
         self.Train_Name = Train_Name
         self.Concession = Concession
@@ -134,15 +129,9 @@ class Ticket(db.Model):
         self.Passengerid=Passengerid
         self.Train_Class=Train_Class
 
-
-
-
 #-----------------------------------Routes------------------------------
 
-
 login_checker="Login"
-
-
 
 @app.route('/')
 def index():
@@ -157,8 +146,6 @@ def home():
     login_checker=request.args['login_checker']
     
     return render_template('index.html',login_checker=login_checker)
-
-
 
 @app.route('/login',methods=["POST","GET"])
 def login():
@@ -197,9 +184,6 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html')
 
-
-
-
 @app.route('/logout')
 def logout():
     global login_checker
@@ -207,10 +191,6 @@ def logout():
     flash('You were successfully logged out !')
 
     return redirect(url_for('home',login_checker=login_checker,**request.args))
-    
-
-
-
 
 @app.route('/signUp',methods=["POST","GET"])
 def signup():
@@ -227,7 +207,6 @@ def signup():
         passenger_address=request.form['address']
         passenger_category=request.form['category']
         hashed_pswd = generate_password_hash(password) 
-
         
         if db.session.query(Passenger.Passenger_id).filter_by(email=passenger_email).count() == 0:
             data= Passenger(passenger_name, passenger_email, passenger_age,passenger_gender, passenger_address,passenger_phoneno,passenger_category ,hashed_pswd)
@@ -241,14 +220,8 @@ def signup():
         else:
             error='You have already Signed up using this email !'
             return render_template('signUp2.html',error=error)
-
-
-        
+ 
     return render_template('signUp2.html')
-
-
-
-
 
 @app.route('/passenger',methods=["GET","POST"])
 def passenger():
@@ -265,7 +238,6 @@ def passenger():
     phoneno=pdata.phone_no
     category=pdata.Category
     ppid=pdata.Passenger_id
-
 
 
     tdata=Ticket.query.filter_by(Passengerid=ppid).first()
@@ -285,11 +257,6 @@ def passenger():
     else:
 
         return render_template('passenger.html',login_checker=login_checker,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tcheck=False)
-
-
-
-
-
 
 @app.route('/cancel1',methods=["POST","GET"])
 def cancel1():
@@ -347,16 +314,9 @@ def cancel2():
         return render_template('cancel1.html')
     return render_template('cancel1.html')
 
-
-        
-
-
-
-
 @app.route('/bookTicket', methods=["GET","POST"])
 def booking():
     global login_checker 
-
 
     data = pd.read_csv('trainsxx.csv')
 
@@ -369,7 +329,6 @@ def booking():
     def convert_to_intt(word):
         word_dict = {'1AC':1, '2AC':2, 'SL':3, '1AC Plus':4,0:0}
         return word_dict[word]
-
 
     error=None
     if request.method == 'POST':
@@ -384,9 +343,7 @@ def booking():
         #train_type1=train_type
         #Passenger_id=request.form['Passenger_id']
         #print(p_departure, p_arrival, date, concession)
-
-
-            
+ 
         c1 = 0
         c2 = 0
 
@@ -404,7 +361,6 @@ def booking():
         dist = abs((c2 - c1))*100 #calculating distances between stations
 
         #pnr = random.randint(10000000, 99999999)
-
 
         if(p_departure=="DELHI-SAFDAR" and p_arrival=="AGRA CANTT"):
             route=1
@@ -449,11 +405,6 @@ def booking():
         time_of_arr=y['Arrival time'].loc[idx]
         pnr = random.randint(1000000, 9999999)
 
-
-        # pdata=db.session.query(Passenger.Passenger_id).filter_by(name=login_checker).first()
-        # print(pdata)
-
-        #lst=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
         #sprint(lst)
 
         #def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
@@ -479,11 +430,6 @@ def booking():
 
 
     return render_template("bookTicket3.html",login_checker=login_checker)
-
-
-
-
-
 
 @app.route('/success',methods=["GET","POST"])
 def success():
@@ -532,34 +478,33 @@ def success():
  
     return render_template('itenary2.html',data=data,cost=cost)
 
-
-
-
-
-
-
 @app.route('/costPredictor',methods=["GET","POST"])
 def costPredictor():
     
     global login_checker
 
-
     def convert_to_int(word):
         word_dict = {
-            'Super Fast':1, 
-            'Passenger Train':2, 
-            'Express Train':3, 
-            'INTERCITY':4, 
-            'MD-LD':5, 
+            'Super Fast' : 1, 
+            'Passenger Train' : 2, 
+            'Express Train' : 3, 
+            'INTERCITY' : 4, 
+            'MD-LD' : 5, 
             'MD': 6, 
-            'LD-MD':7,0:0
+            'LD-MD' : 7,
+            0 : 0
         }
         return word_dict[word]
 
     def convert_to_intt(word):
-        word_dict = {'1AC':1, '2AC':2, 'SL':3, '1AC Plus':4,0:0}
+        word_dict = {
+            '1AC' : 1, 
+            '2AC' : 2, 
+            'SL' : 3, 
+            '1AC Plus' : 4,
+            0 : 0
+        }
         return word_dict[word]
-
 
     error=None
     if request.method == 'POST':

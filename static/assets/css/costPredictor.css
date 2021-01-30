@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
+
 :root {
     --navBar-color: #016484;
     --submitBtn-color: #bce3fa;
@@ -133,13 +134,9 @@ input:focus {
     background-image: url("../img/costPredGif.gif");
     height: 16rem;
     width: 25rem;
+    background-size: cover;
     border-radius: 0.8em;
 }
-/* .image-container > img {
-    width: 60%;
-    height: 40%;
-    border-radius: 1em;
-} */
 
 .formContainer {
     display: flex;

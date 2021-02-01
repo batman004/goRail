@@ -5,3 +5,4 @@ __pycache__/
 gorail-env/
 gorail-env/Lib
 gorail-env/Inlcude
+.env

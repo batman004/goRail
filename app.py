@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_sqlalchemy import SQLAlchemy
 
+import settings
 #from flask_mail import Mail, Message
 #from flaskext.mail import Mail, Message
 
@@ -27,8 +28,6 @@ stations = np.array(stations)
 #-------------------------------configs--------------------------------------------
 
 app=Flask(__name__)
-
-app.secret_key = "thisisasecretkey"
 
 #--------------------for mail sending ---------
 # mail = Mail(app)
@@ -54,15 +53,10 @@ ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
-    Development_Database_URI = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
-    app.config['SQLALCHEMY_DATABASE_URI'] = Development_Database_URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = settings.DEVELOPMENT_DATABASE_URI
 else:
     app.debug = False
-    Production_Database_URI = 'postgres://cwdxrtpyxksiyu:' \
-    '9b4ec83827aaeda7bdf2740a22cd03742caf3d94835745ce711226274ede18d7' \
-    '@ec2-34-237-166-54.compute-1.amazonaws.com:5432/dmq6enggu0l4j'
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = Production_Database_URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = settings.PRODUCTION_DATABASE_URI
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

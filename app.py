@@ -5,7 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_sqlalchemy import SQLAlchemy
 
-import settings
 #from flask_mail import Mail, Message
 #from flaskext.mail import Mail, Message
 
@@ -53,7 +52,8 @@ ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = settings.DEVELOPMENT_DATABASE_URI
+    Development_Database_URI = 'postgresql://postgres:uvpostgres269@localhost/gorail2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = Development_Database_URI
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cwdxrtpyxksiyu:' \

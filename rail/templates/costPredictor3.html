@@ -31,7 +31,7 @@
                         <label>Cost Predictor</label>
                     </a>
                 </div>
-                {% if login_checker == 'Login' %}
+                {% if not user.is_authenticated %}
                     <div class="navButton-login">
                         <button type="button"
                             onclick='window.location.href="/login"'>Login
@@ -40,7 +40,7 @@
                 {% else %}
                     <div class="navButton-login">
                         <button type="button"
-                    onclick='window.location.href="/passenger"'>{{ login_checker }}
+                    onclick='window.location.href="/passenger"'>{{ user.name }}
                         </button>
                     </div>
                     <div>
@@ -97,11 +97,13 @@
                     </div>
 
                     <div class="formElements">
-                        <label for="fare_type">Fare Type</label>
-                        <select id="fare_type">
+                        <label for="fareType">Fare Type</label>
+                        <select id="fareType" name="fareType" required>
                             <option value="" selected>Fare Type</option>
                             <option value="Promo">Promo</option>
                             <option value="Flexible">Flexible</option>
+                            <!-- <option value="None">None</option> -->
+
                         </select>
                         <!-- <input type="text" id="fare_type" name="fare_type" > -->
                     </div>

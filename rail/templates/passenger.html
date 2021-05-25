@@ -17,13 +17,13 @@
                 <div><a href="/"><label>Home</label></a></div>
                 <div><a href="/bookTicket"><label>Book Tickets</label></a></div>
                 <div><a href="/costPredictor"><label>Cost Predictor</label></a></div>
-                {% if login_checker == 'Login' %}
+                {% if not user.is_authenticated %}
                 <div class="navButton-login"><button type="button"
                         onclick='window.location.href="/login"'>Login</button>
                 </div>
                 {% else %}
                 <div class="navButton-login"><button type="button"
-                        onclick='window.location.href="/passenger"'>{{ name }}</button></div>
+                        onclick='window.location.href="/passenger"'>{{ user.name }}</button></div>
                 <div><a href="/logout"><label>Logout</label></a></div>
                 {% endif %}
             </div>
@@ -116,7 +116,19 @@
                 </div>
             </div>
         </div>
+
+        {% if tcheck %}
+        <div class="loginButton">
+            <div>
+                <button type="submit" value="Submit" onclick='window.location.href="/cancel1"'>Cancel Ticket</button>
+            </div>
+        </div>
+        {% endif %}
+    
+
     </main>
+
+
 </body>
 
 </html>

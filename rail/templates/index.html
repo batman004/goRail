@@ -17,25 +17,19 @@
                 <div><a href="/"><label>Home</label></a></div>
                 <div><a href="/bookTicket"><label>Book Tickets</label></a></div>
                 <div><a href="/costPredictor"><label>Cost Predictor</label></a></div>
-                {% if login_checker == 'Login' %}
+                {% if user.is_authenticated %}
+
                     <div class="navButton-login"><button type="button"
-                    onclick='window.location.href="/login"'>Login</button></div>
-                {% else %}
-                    <div class="navButton-login"><button type="button"
-                    onclick='window.location.href="/passenger"'>{{ login_checker }}</button></div>
+                    onclick='window.location.href="/passenger"'>{{ user.name }}</button></div>
                     <div><a href="/logout"><label>Logout</label></a></div>
-                {% endif %}
-<!--                 
-                <span>
-                    {% if userName != 'Login' %}
-                    <a href="/" style="color: white;">
-                        Logout
-                    </a>
-                    {% endif %}
-                </span>
-                <div class="navButton-login"><button type="button"
-                        onclick='window.location.href="/login"'>Login</button></div> -->
-                        
+
+                {% else %}
+
+                    <div class="navButton-login"><button type="button"
+                    onclick='window.location.href="/login"'>Login</button>
+                    </div>
+
+                {% endif %}                        
             </div>
         </nav>
         <div class="main-container">

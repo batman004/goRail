@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint
 from flask_login import LoginManager
 from .config import *
+from .extensions import db,mail
 import os
 
 def create_app():
@@ -22,11 +23,12 @@ def create_app():
     from .auth import auth
 
     db.init_app(app)
+    mail.init_app(app)
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Passenger,Ticket
+    from .models import Passenger
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

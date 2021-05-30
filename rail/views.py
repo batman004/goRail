@@ -2,8 +2,10 @@
 from flask import Blueprint,render_template,redirect,request,flash,url_for
 from .models import Ticket,Passenger
 from werkzeug.security import generate_password_hash, check_password_hash
-from .extensions import db
+from .extensions import db,mail
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_mail import Message
+
 
 #EXTRA IMPORTS :
 from datetime import datetime
@@ -35,8 +37,6 @@ def passenger():
     #query data from database about passenger : name, email ..... and train data
 
     pdata=Passenger.query.filter_by(Passenger_id=current_user.Passenger_id).first()
-    
-    print(current_user.Passenger_id)
 
     name=pdata.name
     email=pdata.email
@@ -60,7 +60,7 @@ def passenger():
         tcost=tdata.cost_of_ticket
         tpnr=tdata.PNR
     
-        return render_template('passenger.html',name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr,tcheck=True)
+        return render_template('passenger.html',user=current_user,name=name,email=email,age=age,gender=gender,address=address,phoneno=phoneno,category=category,tname=tname,dat=Date_of_T,timed=Time_of_Departure,timea=Time_of_arrival,pd=D_From,pa=A_at,cost=tcost,pnr=tpnr,tcheck=True)
 
     else:
 
@@ -76,10 +76,11 @@ def cancel1():
 
         # ADD error handling to validate PNR 
 
-        return redirect(url_for('cancel2',pnr=pnr, **request.args))#error='You have already Signed up !'
+        return redirect(url_for('views.cancel2',pnr=pnr, **request.args))#error='You have already Signed up !'
     return render_template('cancel.html')
 
 @views.route('/cancel2',methods=["GET","POST"])
+@login_required
 def cancel2():
 
     pnr=request.args['pnr']
@@ -135,7 +136,6 @@ def booking():
         trainc=train_class
         #train_type1=train_type
         #Passenger_id=request.form['Passenger_id']
-        #print(p_departure, p_arrival, date, concession)
  
         c1 = 0
         c2 = 0
@@ -153,7 +153,6 @@ def booking():
                 c2 += 1
         dist = abs((c2 - c1))*100 #calculating distances between stations
 
-        #pnr = random.randint(10000000, 99999999)
 
         if(p_departure=="DELHI-SAFDAR" and p_arrival=="AGRA CANTT"):
             route=1
@@ -169,13 +168,11 @@ def booking():
         month=x.month
         day=x.day
         weekday=x.weekday()
-        
         train_c=convert_to_intt(train_class)
         train_t=convert_to_int(train_type)
-        dur=160
         pickle_in = open("rail/ticketprices.pickle", "rb")
         linear = pickle.load(pickle_in)
-        inputt=[train_t ,train_c ,fare_t ,month ,day ,weekday ,dur,route]  #check this tuple and manupulate input
+        inputt=[train_t ,train_c ,fare_t ,month ,day ,weekday ,dist,route] 
         inputt = np.asarray(inputt,dtype='float64')
         inputt.reshape(-1,1)
 
@@ -183,13 +180,10 @@ def booking():
             cp=linear.predict([inputt])[0]*4
         elif(concession=="Senior Citizen"):
             cp=linear.predict([inputt])[0]*4.0 -60
-
         else:
             cp=linear.predict([inputt])[0]*4.0 -40
 
-
         cost=int(cp)
-
         y=data.loc[c1:c2, :]
         trainn=y['Train Name'].unique()[0]
         trainn=str(trainn)
@@ -198,24 +192,11 @@ def booking():
         time_of_arr=y['Arrival time'].loc[idx]
         pnr = random.randint(1000000, 9999999)
 
-        #sprint(lst)
-
-        #def __init__(self, Train_Name, Concession, Date_of_travel,Time_of_departure,Time_of_arrival,place_of_Departure,place_of_Arrival,cost_of_ticket,PNR,Passengerid,Train_Class):
-       
-        
-        #print(data2)
         if(current_user.is_authenticated):
 
             pdata=Passenger.query.filter_by(Passenger_id=current_user.Passenger_id).first()
-
             ppid=pdata.Passenger_id
-
-            # data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
-            # db.session.add(data2)
-            # db.session.commit()
-            LST=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
-            #return redirect(url_for('success',data=y.to_html(), pnr=pnr,**request.args,login_checker=login_checker))#error='You have already Signed up !'
-            return redirect(url_for('views.success',data=y.to_html(),trainn=trainn,concession=concession,date=date,time_of_dep=time_of_dep,time_of_arr=time_of_arr,p_departure=p_departure,p_arrival=p_arrival,cost=cost,pnr=pnr,ppid=ppid,trainc=trainc ,**request.args,user=current_user))#error='You have already Signed up !'
+            return redirect(url_for('views.success',data=y.to_html(),trainn=trainn,concession=concession,date=date,time_of_dep=time_of_dep,time_of_arr=time_of_arr,p_departure=p_departure,p_arrival=p_arrival,cost=cost,pnr=pnr,ppid=ppid,trainc=trainc ,**request.args,user=current_user))
             
         else:
             flash('Please Login First !')
@@ -241,29 +222,27 @@ def success():
     ppid=request.args['ppid']
     trainc=request.args['trainc']
 
-    LST=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
-    print(LST)
+    # LST=[trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc]
 
     pdata=Passenger.query.filter_by(Passenger_id=current_user.Passenger_id).first()
-
     pemail=pdata.email
     pname=pdata.name
     msg=''
-    #print(daata)
     if request.method == "POST":
         choice=request.form['yes_no']
-        print(choice)
+        # print(choice)
         if choice=="yes":
-            # pdata=Passenger.query.filter_by(name=login_checker).first()
-
-            # ppid=pdata.Passenger_id
 
             data2= Ticket(trainn, concession,date,time_of_dep,time_of_arr ,p_departure,p_arrival,cost,pnr,ppid,trainc)
             db.session.add(data2)
             db.session.commit()
-            msg= f"Here are your Ticket Details :\n  Name :{pname} \n Train : {trainn} \n Date : {date}\n Time of Departure : {time_of_dep} \nTime of Arrival : {time_of_arr}\n Departure : {p_departure}\n Arrivaal : {time_of_arr}\n Cost : {cost}\nPNR : {pnr} "
+            msg= f"Here are your Ticket Details :\n Name :{pname} \n Train Name : {trainn} \n Date : {date}\n Time of Departure : {time_of_dep} \n Time of Arrival : {time_of_arr}\n Departure : {p_departure}\n Arrival : {time_of_arr}\n Cost : {cost}\n PNR : {pnr} "
             print(msg)
-            # sendmail(msg,pemail)
+            emsg = Message("goRail Ticket Details",
+             recipients=[pemail])
+            emsg.body=msg
+            mail.send(emsg)
+
             return render_template("successbooking.html",choice=choice,pnr=pnr)
         else:
 
